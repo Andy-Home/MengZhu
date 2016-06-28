@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="golden">#ffc107</color>
+    <color name="gainSboro">#DCDCDC</color>
+    <color name="darkRed">#8B0000</color>
 </resources>

@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">萌猪</string>
     <string name="action_settings">Settings</string>
+    <string name="current_month_income">本月收入</string>
+    <string name="current_month_pay">本月支出</string>
+    <string name="current_week_income">本周收入</string>
+    <string name="current_week_pay">本周支出</string>
+    <string name="month">月</string>
+    <string name="week">周</string>
 </resources>
