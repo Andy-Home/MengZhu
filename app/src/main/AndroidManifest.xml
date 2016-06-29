@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.common.BaseActivity" />
+        <!-- 记账界面 -->
+        <activity android:name=".ui.Activity.AddAccount" />
     </application>
 
 </manifest>

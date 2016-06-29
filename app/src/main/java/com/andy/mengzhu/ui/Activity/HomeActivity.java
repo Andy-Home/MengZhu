@@ -1,11 +1,14 @@
 package com.andy.mengzhu.ui.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andy.mengzhu.R;
 import com.andy.mengzhu.model.entity.BalanceOfPayments;
@@ -15,6 +18,7 @@ import com.andy.mengzhu.presenter.impl.HomePresenterImpl;
 import com.andy.mengzhu.ui.adapter.CategoryAdapter;
 import com.andy.mengzhu.ui.common.BaseActivity;
 import com.andy.mengzhu.ui.component.SwitchAndy;
+import com.andy.mengzhu.ui.view.DividerItemDecoration;
 import com.andy.mengzhu.ui.view.InitializeView;
 
 import java.util.ArrayList;
@@ -107,8 +111,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private void initializeView() {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         categoryView.setLayoutManager(mLayoutManager);
-        categoryView.addItemDecoration(new RecyclerView.ItemDecoration() {
-        });
+        categoryView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         categoryView.setHasFixedSize(true);
         //创建并设置Adapter
@@ -117,29 +120,31 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
         homePresenter = new HomePresenterImpl(this);
         homePresenter.getCategory(SwitchAndy.SWITCH_MONTH, REQUEST_CATEGORY);
-        homePresenter.getBalanceOfPayments(SwitchAndy.SWITCH_MONTH, REQUEST_BALANCEOFPAYMENTS);
+        homePresenter.getBalanceOfPayments(switchAndy.getFlag(), REQUEST_BALANCEOFPAYMENTS);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-
+                Intent intent = new Intent(this, AddAccount.class);
+                startActivity(intent);
                 break;
 
             case R.id.balance:
-
+                homePresenter.getBalanceOfPayments(switchAndy.getFlag(), REQUEST_BALANCEOFPAYMENTS);
                 break;
         }
     }
 
     @Override
     public void showError(int requestCode) {
-
+        Toast.makeText(this, R.string.request_wrong, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void setView(Object object, int requestCode) {
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_CATEGORY:
                 datas.clear();
                 datas.addAll((List<Category>) object);
@@ -147,14 +152,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case REQUEST_BALANCEOFPAYMENTS:
                 BalanceOfPayments balanceOfPayments = (BalanceOfPayments) object;
-                incomeNum.setText(balanceOfPayments.getIncome()+"");
-                payNum.setText(balanceOfPayments.getPay()+"");
+                incomeNum.setText(balanceOfPayments.getIncome() + "");
+                payNum.setText(balanceOfPayments.getPay() + "");
 
-                if(switchAndy.getFlag() == SwitchAndy.SWITCH_MONTH){
+                if (switchAndy.getFlag() == SwitchAndy.SWITCH_MONTH) {
                     incomeText.setText(R.string.current_month_income);
                     payText.setText(R.string.current_month_pay);
                     switchAndy.setDisplayMonthNum(balanceOfPayments.getBalance());
-                }else{
+                } else {
                     incomeText.setText(R.string.current_week_income);
                     payText.setText(R.string.current_week_pay);
                     switchAndy.setDisplayWeekNum(balanceOfPayments.getBalance());
