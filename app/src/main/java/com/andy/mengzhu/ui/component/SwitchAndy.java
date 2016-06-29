@@ -22,12 +22,12 @@ public class SwitchAndy extends View {
     /**
      * 选择月时的状态值
      */
-    private static final int SWITCH_MONTH = 0;
+    public static final int SWITCH_MONTH = 0;
 
     /**
      * 选择周时的状态值
      */
-    private static final int SWITCH_WEEK = 1;
+    public static final int SWITCH_WEEK = 1;
 
     /**
      * 当前的收支为正时的背景色
@@ -52,12 +52,12 @@ public class SwitchAndy extends View {
     /**
      * 本月的收支的大小
      */
-    private double displayMonthNum = 111111110.00;
+    private double displayMonthNum = 0.00;
 
     /**
      * 本周的收支的大小
      */
-    private double displayWeekNum = 11111110.00;
+    private double displayWeekNum = 0.00;
 
     /**
      * 显示的文字的大小
@@ -122,15 +122,6 @@ public class SwitchAndy extends View {
     }
 
 
-    /*@Override
-    public void onClick(View v) {
-        if(flag == SWITCH_WEEK){
-            flag = SWITCH_MONTH;
-        }else {
-            flag = SWITCH_WEEK;
-        }
-        invalidate();
-    }*/
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -163,7 +154,11 @@ public class SwitchAndy extends View {
         this.displayWeekNum = displayWeekNum;
     }
 
-    public void setOnClickListener(OnClickListener onClickListener){
-        setOnClickListener(onClickListener);
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 }

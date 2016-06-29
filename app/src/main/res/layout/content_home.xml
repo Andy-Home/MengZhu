@@ -69,11 +69,17 @@
 
     <!-- 分隔线 -->
     <ImageView
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@id/balance"
         android:layout_marginTop="36dp"
         android:src="@drawable/line_gray" />
 
-
+    <!-- 类目列表 -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_category"
+        android:layout_below="@id/line"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>
