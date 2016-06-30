@@ -3,7 +3,6 @@ package com.andy.mengzhu.ui.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -127,7 +126,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                Intent intent = new Intent(this, AddAccount.class);
+                Intent intent = new Intent(this, AddRecord.class);
                 startActivity(intent);
                 break;
 

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 显示用户填写的记录 -->
+    <RelativeLayout
+        android:id="@+id/record_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <!-- 记录的金额 -->
+        <TextView
+            android:id="@+id/record_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="0.00"
+            android:textSize="48dp" />
+
+        <!-- 记录的类别 -->
+        <TextView
+            android:id="@+id/record_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/record_num"
+            android:layout_marginTop="10dp"
+            android:text="中餐"
+            android:textSize="@dimen/add_record_text_size" />
+
+        <!-- 记录的时间 -->
+        <TextView
+            android:id="@+id/record_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:text="2016.06.30"
+            android:textSize="@dimen/add_record_text_size" />
+
+        <!-- 记录的描述，用户该笔账务的花费情景 -->
+        <TextView
+            android:id="@+id/record_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/record_time"
+            android:layout_marginTop="15dp"
+            android:text="同学聚餐"
+            android:textSize="@dimen/add_record_text_size" />
+
+        <!-- 记录的支收款项 -->
+        <TextView
+            android:id="@+id/record_funds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/record_desc"
+            android:layout_marginTop="15dp"
+            android:text="零钱"
+            android:textSize="@dimen/add_record_text_size" />
+
+        <!-- 分隔线 -->
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/record_funds"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/line_gray" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/finance_num_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/record_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp">
+
+        <TextView
+            android:id="@+id/finance_num_text"
+            android:text="@string/finance_num"
+            android:textSize="@dimen/add_record_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"/>
+
+        <EditText
+            android:id="@+id/finance_num"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/finance_num_text"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/record_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp">
+
+        <TextView
+            android:id="@+id/finance_category_txt"
+            android:text="@string/finance_category"
+            android:textSize="@dimen/add_record_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"/>
+
+        <Spinner
+            android:id="@+id/finance_category"
+            android:layout_width="108dp"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/finance_category_txt"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -21,7 +21,7 @@
 
         <activity android:name=".ui.common.BaseActivity" />
         <!-- 记账界面 -->
-        <activity android:name=".ui.Activity.AddAccount" />
+        <activity android:name=".ui.Activity.AddRecord" />
     </application>
 
 </manifest>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_name">
+        <item>主餐</item>
+        <item>交通</item>
+        <item>水果</item>
+        <item>零食</item>
+        <item>通讯</item>
+        <item>生活用品</item>
+        <item>收款</item>
+        <item>借款</item>
+        <item>工资</item>
+        <item>转账</item>
+    </string-array>
+</resources>
