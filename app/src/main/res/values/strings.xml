@@ -11,7 +11,7 @@
     <string name="finance_num">金额</string>
     <string name="finance_category">类别</string>
     <string name="finance_des">描述</string>
-    <string name="finance_time">时间</string>
+    <string name="finance_date">日期</string>
     <string name="finance_pay_location">扣款项</string>
     <string name="finance_income_location">收入项</string>
 </resources>

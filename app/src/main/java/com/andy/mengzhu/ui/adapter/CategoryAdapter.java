@@ -46,8 +46,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView categoryName;
-        public TextView categoryPay;
+        public TextView categoryName;   //类目名
+        public TextView categoryPay;    //类目金额
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -113,9 +113,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         categoryView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         categoryView.setHasFixedSize(true);
-        //创建并设置Adapter
         mAdapter = new CategoryAdapter(datas);
         categoryView.setAdapter(mAdapter);
+
 
         homePresenter = new HomePresenterImpl(this);
         homePresenter.getCategory(SwitchAndy.SWITCH_MONTH, REQUEST_CATEGORY);
