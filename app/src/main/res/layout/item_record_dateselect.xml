@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="48dp"
-    android:layout_height="wrap_content">
+    android:layout_height="88dp">
 
     <TextView
         android:id="@+id/week"
@@ -15,8 +15,9 @@
     <TextView
         android:id="@+id/date"
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="31"
         android:textSize="36dp" />
 

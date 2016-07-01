@@ -17,32 +17,37 @@ import java.util.List;
 /**
  * Created by andy on 16-6-30.
  */
-public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
+public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> implements View.OnClickListener {
 
     /**
      * 保存要显示的数据
      */
     private List<Date> datas = new ArrayList<>();
 
-    /**
-     * 现在的日期
-     */
-    private Date currentDate;
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     /**
-     * 需要首先显示的位置，即现在的日期
+     * 日期的点击事件监听器
      */
-    private int position;
+    public interface OnRecyclerViewItemClickListener {
+        /**
+         * 日期的点击事件的回调接口
+         *
+         * @param view
+         * @param date
+         */
+        void onItemClick(View view , Date date);
+    }
 
     public DateAdapter() {
         this.datas = DateUtil.findDate();
-        currentDate = Calendar.getInstance().getTime();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_record_dateselect, parent, false);
         ViewHolder vh = new ViewHolder(view);
+        view.setOnClickListener(this);
         return vh;
     }
 
@@ -51,6 +56,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         holder.date.setText(DateUtil.getDay(datas.get(position)));
         holder.month.setText(DateUtil.getMonth(datas.get(position)));
         holder.week.setText(DateUtil.getWeek(datas.get(position)));
+        holder.itemView.setTag(datas.get(position));
     }
 
     @Override
@@ -69,5 +75,16 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
             week = (TextView) itemView.findViewById(R.id.week);
             month = (TextView) itemView.findViewById(R.id.month);
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(view,(Date)view.getTag());
+        }
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.mOnItemClickListener = listener;
     }
 }

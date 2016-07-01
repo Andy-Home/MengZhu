@@ -1,5 +1,7 @@
 package com.andy.mengzhu.app.util;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,12 +17,17 @@ public class DateUtil {
     /**
      * 日期的开始时间
      */
-    private final static String dateStart = "2012-06-01";
+    private final static String dateStart = "2015-06-01";
 
     /**
      * 日期的结束时间
      */
-    private final static String dateEnd = "2112-06-01";
+    private final static String dateEnd = "2020-06-01";
+
+    /**
+     * 现在的日期所在的位置
+     */
+    private static int position;
 
     /**
      * 查找在 dateStart 与 dateEnd 之间的所有日期
@@ -40,17 +47,24 @@ public class DateUtil {
             e.printStackTrace();
         }
 
-
         List<Date> mDate = new ArrayList<>();
 
         Calendar calBegin = Calendar.getInstance();
         calBegin.setTime(mBegin);
+        mDate.add(calBegin.getTime());
 
         Calendar calEnd = Calendar.getInstance();
         calEnd.setTime(mEnd);
 
+        String currentTime = sdf.format(Calendar.getInstance().getTime());
+
         //获取范围内的日期
         while (mEnd.after(calBegin.getTime())) {
+            String positionDate = sdf.format(mDate.get(mDate.size()-1));
+
+            if(currentTime.equals(positionDate)){
+                position = mDate.size()-1;
+            }
             calBegin.add(Calendar.DAY_OF_MONTH, 1);
             mDate.add(calBegin.getTime());
         }
@@ -66,10 +80,7 @@ public class DateUtil {
     public static String getYear(Date mDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(mDate);
-        String year = "";
-
-        int flag = calendar.get(Calendar.YEAR);
-        year = "" + flag;
+        String year = "" + calendar.get(Calendar.YEAR);
         return year;
     }
 
@@ -82,14 +93,7 @@ public class DateUtil {
     public static String getMonth(Date mDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(mDate);
-        String month = "";
-
-        int flag = calendar.get(Calendar.MONTH);
-        if (flag < 10) {
-            month = "0" + flag;
-        } else {
-            month = "" + flag;
-        }
+        String month = calendar.get(Calendar.MONTH)+ 1 +"";
         return month;
     }
 
@@ -102,17 +106,17 @@ public class DateUtil {
     public static String getDay(Date mDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(mDate);
-        String day = "";
+        String day = ""+calendar.get(Calendar.DATE);
 
-        int flag = calendar.get(Calendar.DATE);
-        if (flag < 10) {
-            day = "0" + flag;
-        } else {
-            day = "" + flag;
-        }
         return day;
     }
 
+    /**
+     * 根据日期获取星期
+     *
+     * @param date
+     * @return
+     */
     public static String getWeek(Date date) {
         String[] weeks = {"日", "一", "二", "三", "四", "五", "六"};
         Calendar cal = Calendar.getInstance();
@@ -122,5 +126,9 @@ public class DateUtil {
             week_index = 0;
         }
         return weeks[week_index];
+    }
+
+    public static int getPosition() {
+        return position;
     }
 }

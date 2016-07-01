@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <!-- 显示用户填写的记录 -->
     <RelativeLayout
@@ -17,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="0.00"
+            android:text="@string/finance_num_default"
             android:textSize="48dp" />
 
         <!-- 记录的类别 -->
@@ -27,12 +29,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/record_num"
             android:layout_marginTop="10dp"
-            android:text="中餐"
+            android:text="主餐"
             android:textSize="@dimen/add_record_text_size" />
 
         <!-- 记录的时间 -->
         <TextView
-            android:id="@+id/record_time"
+            android:id="@+id/record_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -46,9 +48,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/record_time"
+            android:layout_below="@id/record_date"
             android:layout_marginTop="15dp"
-            android:text="同学聚餐"
+            android:text="中餐"
             android:textSize="@dimen/add_record_text_size" />
 
         <!-- 记录的支收款项 -->
@@ -68,70 +70,141 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_below="@id/record_funds"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="28dp"
             android:src="@drawable/line_gray" />
     </RelativeLayout>
 
+    <!-- 记录账务金额的布局 -->
     <RelativeLayout
         android:id="@+id/finance_num_layout"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/record_layout"
         android:layout_width="wrap_content"
-        android:layout_height="46dp">
+        android:layout_height="46dp"
+        android:layout_below="@id/record_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="28dp">
 
         <TextView
             android:id="@+id/finance_num_text"
-            android:text="@string/finance_num"
-            android:textSize="@dimen/add_record_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:text="@string/finance_num"
+            android:textSize="@dimen/add_record_text_size" />
 
         <EditText
             android:id="@+id/finance_num"
-            android:layout_width="88dp"
+            android:layout_width="108dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/finance_num_text"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp" />
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/finance_num_text"
+            android:gravity="center"
+            android:hint="@string/finance_num_default"
+            android:inputType="numberDecimal"
+            android:maxLines="1" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_alignParentRight="true"
+    <!-- 日期选择器的布局 -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/finance_date"
+        android:layout_width="148dp"
+        android:layout_height="88dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
         android:layout_below="@id/record_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="58dp" />
+
+    <!-- 类别选择的布局 -->
+    <RelativeLayout
+        android:id="@+id/finance_category_layout"
         android:layout_width="wrap_content"
-        android:layout_height="46dp">
+        android:layout_height="46dp"
+        android:layout_below="@id/finance_num_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/finance_category_txt"
-            android:text="@string/finance_category"
-            android:textSize="@dimen/add_record_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:text="@string/finance_category"
+            android:textSize="@dimen/add_record_text_size" />
 
         <Spinner
             android:id="@+id/finance_category"
             android:layout_width="108dp"
-            android:layout_centerVertical="true"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/finance_category_txt"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp" />
-
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/finance_category_txt" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/finance_date"
-        android:layout_marginRight="20dp"
+    <!-- 扣款或者收入项的布局 -->
+    <RelativeLayout
+        android:id="@+id/finance_funds_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_below="@id/finance_category_layout"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/finance_num_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="10dp">
 
+        <TextView
+            android:id="@+id/finance_funds_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/finance_pay_location"
+            android:textSize="@dimen/add_record_text_size" />
+
+        <Spinner
+            android:id="@+id/finance_funds"
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/finance_funds_txt" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/finance_desc_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_below="@id/finance_funds_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/finance_desc_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/finance_desc"
+            android:textSize="@dimen/add_record_text_size" />
+
+        <EditText
+            android:id="@+id/finance_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/finance_desc_text"
+            android:gravity="center"
+            android:hint="@string/finance_desc_default"
+            android:maxLines="1" />
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@color/gainSboro"
+        android:text="@string/save"
+        android:textSize="18dp" />
 </RelativeLayout>

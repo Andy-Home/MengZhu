@@ -21,7 +21,9 @@
 
         <activity android:name=".ui.common.BaseActivity" />
         <!-- 记账界面 -->
-        <activity android:name=".ui.Activity.AddRecord" />
+        <activity
+            android:name=".ui.Activity.AddRecord"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
