@@ -18,12 +18,12 @@ import com.andy.mengzhu.ui.adapter.CategoryAdapter;
 import com.andy.mengzhu.ui.common.BaseActivity;
 import com.andy.mengzhu.ui.component.SwitchAndy;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
-import com.andy.mengzhu.ui.view.InitializeView;
+import com.andy.mengzhu.ui.view.DataRequestView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener, InitializeView {
+public class HomeActivity extends BaseActivity implements View.OnClickListener, DataRequestView {
 
     /**
      * 添加新账务按钮

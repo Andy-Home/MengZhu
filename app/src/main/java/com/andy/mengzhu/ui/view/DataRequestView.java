@@ -3,7 +3,7 @@ package com.andy.mengzhu.ui.view;
 /**
  * Created by Administrator on 2016/6/29 0029.
  */
-public interface InitializeView {
+public interface DataRequestView {
 
     /**
      * 当请求数据错误时调用

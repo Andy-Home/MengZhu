@@ -2,12 +2,11 @@ package com.andy.mengzhu.presenter.impl;
 
 import com.andy.mengzhu.model.BalanceOfPaymentsModel;
 import com.andy.mengzhu.model.CategoryModel;
-import com.andy.mengzhu.model.entity.BalanceOfPayments;
 import com.andy.mengzhu.model.impl.BalanceOfPaymentsModelImpl;
 import com.andy.mengzhu.model.impl.CategoryModelImpl;
 import com.andy.mengzhu.presenter.HomePresenter;
 import com.andy.mengzhu.presenter.OnDataRequestListener;
-import com.andy.mengzhu.ui.view.InitializeView;
+import com.andy.mengzhu.ui.view.DataRequestView;
 
 /**
  * Created by Administrator on 2016/6/29 0029.
@@ -15,10 +14,10 @@ import com.andy.mengzhu.ui.view.InitializeView;
 public class HomePresenterImpl implements HomePresenter, OnDataRequestListener {
     private CategoryModel categoryModel;
     private BalanceOfPaymentsModel balanceOfPaymentsModel;
-    private InitializeView view;
+    private DataRequestView view;
 
 
-    public HomePresenterImpl(InitializeView view){
+    public HomePresenterImpl(DataRequestView view){
         categoryModel = new CategoryModelImpl();
         balanceOfPaymentsModel = new BalanceOfPaymentsModelImpl();
         this.view = view;

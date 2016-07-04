@@ -200,6 +200,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"

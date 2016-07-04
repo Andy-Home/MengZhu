@@ -8,23 +8,29 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.andy.greendao.Record;
 import com.andy.mengzhu.R;
 import com.andy.mengzhu.app.util.DateUtil;
+import com.andy.mengzhu.presenter.HomePresenter;
+import com.andy.mengzhu.presenter.RecordPresenter;
+import com.andy.mengzhu.presenter.impl.RecordPresenterImpl;
 import com.andy.mengzhu.ui.adapter.DateAdapter;
 import com.andy.mengzhu.ui.common.BaseActivity;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by Administrator on 2016/6/28 0028.
  */
-public class AddRecord extends BaseActivity{
+public class AddRecord extends BaseActivity implements View.OnClickListener {
      /**
      * 选择类别的控件
      */
@@ -80,6 +86,12 @@ public class AddRecord extends BaseActivity{
      */
     private TextView record_desc;
 
+    /**
+     * 点击该按钮，保存账务信息
+     */
+    private Button save_record;
+
+    private RecordPresenter recordPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +114,7 @@ public class AddRecord extends BaseActivity{
         dateView = (RecyclerView) findViewById(R.id.finance_date);
         numView = (EditText) findViewById(R.id.finance_num);
         descView = (EditText) findViewById(R.id.finance_desc);
+        save_record = (Button) findViewById(R.id.save);
     }
 
     private void setListener() {
@@ -134,6 +147,7 @@ public class AddRecord extends BaseActivity{
 
         //日期的监听
         dateAdapter.setOnItemClickListener(new DateAdapter.OnRecyclerViewItemClickListener() {
+
             @Override
             public void onItemClick(View view, Date date) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
@@ -173,6 +187,8 @@ public class AddRecord extends BaseActivity{
                 record_desc.setText(descView.getText().toString());
             }
         });
+
+        save_record.setOnClickListener(this);
     }
 
     private void initializeView() {
@@ -199,4 +215,21 @@ public class AddRecord extends BaseActivity{
         dateView.scrollToPosition(DateUtil.getPosition()-1);
     }
 
+    @Override
+    public void onClick(View view) {
+        Record record = new Record();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        record.setId(null);
+        record.setNum(Double.valueOf(numView.getText().toString()));
+        try {
+            record.setDate(sdf.parse(record_date.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        record.setCategory(1);
+        record.setFunds(1);
+        record.setDesc(descView.getText().toString());
+        recordPresenter = new RecordPresenterImpl(this);
+        recordPresenter.saveRecord(record);
+    }
 }
