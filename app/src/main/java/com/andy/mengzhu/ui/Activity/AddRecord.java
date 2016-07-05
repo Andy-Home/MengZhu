@@ -231,5 +231,6 @@ public class AddRecord extends BaseActivity implements View.OnClickListener {
         record.setDesc(descView.getText().toString());
         recordPresenter = new RecordPresenterImpl(this);
         recordPresenter.saveRecord(record);
+        finish();
     }
 }

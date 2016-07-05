@@ -18,6 +18,7 @@ public class RecordModelImpl implements RecordModel {
         AndyApplication application = (AndyApplication) activity.getApplication();
         this.daoSession = application.getDaoSession();
     }
+
     @Override
     public void saveRecord(Record record, OnDataRequestListener listener) {
         daoSession.getRecordDao().insert(record);

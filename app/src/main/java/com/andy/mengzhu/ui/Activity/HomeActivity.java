@@ -2,10 +2,14 @@ package com.andy.mengzhu.ui.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +27,7 @@ import com.andy.mengzhu.ui.view.DataRequestView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener, DataRequestView {
+public class HomeActivity extends Fragment implements View.OnClickListener, DataRequestView {
 
     /**
      * 添加新账务按钮
@@ -81,25 +85,27 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
      */
     private List<Category> datas = new ArrayList<>();
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.activity_home, container, false);
 
-        findView();
+        findView(view);
         setListener();
         initializeView();
+        return view;
     }
 
-    private void findView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        switchAndy = (SwitchAndy) findViewById(R.id.balance);
-        categoryView = (RecyclerView) findViewById(R.id.list_category);
 
-        incomeNum = (TextView) findViewById(R.id.income_num);
-        incomeText = (TextView) findViewById(R.id.income_text);
-        payNum = (TextView) findViewById(R.id.pay_num);
-        payText = (TextView) findViewById(R.id.pay_text);
+    private void findView(View view) {
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        switchAndy = (SwitchAndy) view.findViewById(R.id.balance);
+        categoryView = (RecyclerView) view.findViewById(R.id.list_category);
+
+        incomeNum = (TextView) view.findViewById(R.id.income_num);
+        incomeText = (TextView) view.findViewById(R.id.income_text);
+        payNum = (TextView) view.findViewById(R.id.pay_num);
+        payText = (TextView) view.findViewById(R.id.pay_text);
     }
 
     private void setListener() {
@@ -108,14 +114,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void initializeView() {
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         categoryView.setLayoutManager(mLayoutManager);
-        categoryView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        categoryView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         categoryView.setHasFixedSize(true);
         mAdapter = new CategoryAdapter(datas);
         categoryView.setAdapter(mAdapter);
-
 
         homePresenter = new HomePresenterImpl(this);
         homePresenter.getCategory(SwitchAndy.SWITCH_MONTH, REQUEST_CATEGORY);
@@ -126,7 +131,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                Intent intent = new Intent(this, AddRecord.class);
+                Intent intent = new Intent(getActivity(), AddRecord.class);
                 startActivity(intent);
                 break;
 
@@ -138,7 +143,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void showError(int requestCode) {
-        Toast.makeText(this, R.string.request_wrong, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), R.string.request_wrong, Toast.LENGTH_LONG).show();
     }
 
     @Override
