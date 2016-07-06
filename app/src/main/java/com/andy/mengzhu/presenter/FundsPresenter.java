@@ -19,12 +19,12 @@ public interface FundsPresenter {
      *
      * @param funds
      */
-    void savaFunds(Funds funds);
+    void savaFunds(Funds funds, int requestCode);
 
     /**
      * 删除选中的 Funds
      *
      * @param funds
      */
-    void deleteFunds(Funds funds);
+    void deleteFunds(Funds funds, int requestCode);
 }

@@ -1,5 +1,7 @@
 package com.andy.mengzhu.model;
 
+import com.andy.greendao.Category;
+import com.andy.greendao.Funds;
 import com.andy.mengzhu.presenter.OnDataRequestListener;
 
 /**
@@ -15,4 +17,25 @@ public interface CategoryModel {
      * @param requestCode
      */
     void getCategory(int flag, OnDataRequestListener listener, int requestCode);
+
+    /**
+     * 获取所有的 Category
+     *
+     * @param requestCode
+     */
+    void getCategory(int requestCode, OnDataRequestListener listener);
+
+    /**
+     * 保存新建的 Category
+     *
+     * @param category
+     */
+    void savaCategory(Category category, int requestCode, OnDataRequestListener listener);
+
+    /**
+     * 删除选中的 Category
+     *
+     * @param category
+     */
+    void deleteCategory(Category category, int requestCode, OnDataRequestListener listener);
 }

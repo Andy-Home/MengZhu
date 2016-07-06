@@ -21,6 +21,8 @@
     <string name="menu_category">类别项</string>
     <string name="add_funds">添加资金项</string>
     <string name="add_funds_title">请输入新的资金项</string>
+    <string name="add_category">添加类别项</string>
+    <string name="add_category_title">请输入新的类别项</string>
     <string name="cancel">取消</string>
     <string name="determine">确定</string>
 </resources>

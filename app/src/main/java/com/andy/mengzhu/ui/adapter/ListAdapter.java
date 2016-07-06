@@ -11,6 +11,7 @@ import com.andy.greendao.Funds;
 import com.andy.mengzhu.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  * <p/>
  * Created by Administrator on 2016/7/6 0006.
  */
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> implements View.OnClickListener {
     /**
      * 保存资金项的数据
      */
@@ -33,6 +34,24 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
      * 区分是资金项还是类别项，如果是资金项则为true，否为为false
      */
     private boolean isFunds = true;
+
+    /**
+     * 使用
+     */
+    private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
+
+    /**
+     * 点击事件监听器
+     */
+    public interface OnRecyclerViewItemClickListener {
+        /**
+         * 点击事件的回调接口
+         *
+         * @param view
+         * @param position
+         */
+        void onItemClick(View view, int position);
+    }
 
     /**
      * ListAdapter 构造函数
@@ -54,6 +73,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(this);
         return viewHolder;
     }
 
@@ -64,6 +84,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         } else {
             holder.name.setText(categories.get(position).getCategory_name());
         }
+        holder.itemView.setTag(position);
     }
 
     @Override
@@ -75,6 +96,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        if (onRecyclerViewItemClickListener != null) {
+            onRecyclerViewItemClickListener.onItemClick(view, (int) view.getTag());
+        }
+    }
+
     protected static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
 
@@ -82,5 +110,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
         }
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.onRecyclerViewItemClickListener = listener;
     }
 }

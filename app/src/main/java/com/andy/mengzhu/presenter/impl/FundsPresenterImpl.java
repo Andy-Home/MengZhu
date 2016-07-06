@@ -27,13 +27,13 @@ public class FundsPresenterImpl implements FundsPresenter, OnDataRequestListener
     }
 
     @Override
-    public void savaFunds(Funds funds) {
-        fundsModel.savaFunds(funds);
+    public void savaFunds(Funds funds, int requestCode) {
+        fundsModel.savaFunds(funds, requestCode, this);
     }
 
     @Override
-    public void deleteFunds(Funds funds) {
-        fundsModel.deleteFunds(funds);
+    public void deleteFunds(Funds funds, int requestCode) {
+        fundsModel.deleteFunds(funds, requestCode, this);
     }
 
     @Override

@@ -81,6 +81,9 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
      */
     private FundsPresenter mFundsPresenter = null;
 
+    private static final int GET_FUNDS = 1;
+    private static final int SAVE_FUNDS = 2;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +112,7 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
 
     private void initData() {
         mFundsPresenter = new FundsPresenterImpl(this, this);
-        mFundsPresenter.getFunds(-1);
+        mFundsPresenter.getFunds(GET_FUNDS);
     }
 
     private void initializeView() {
@@ -129,9 +132,17 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
 
     @Override
     public void setView(Object object, int requestCode) {
-        funds.clear();
-        funds.addAll((List<Funds>) object);
-        initializeView();
+        switch (requestCode) {
+            case GET_FUNDS:
+                funds.addAll((List<Funds>) object);
+                initializeView();
+                break;
+            case SAVE_FUNDS:
+                funds.clear();
+                funds.addAll((List<Funds>) object);
+                mListAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
     @Override
@@ -189,8 +200,7 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
             case R.id.determine:
                 Funds mFunds = new Funds();
                 mFunds.setFunds_name(fundsName.getText().toString());
-                mFundsPresenter.savaFunds(mFunds);
-                mFundsPresenter.getFunds(-1);
+                mFundsPresenter.savaFunds(mFunds, SAVE_FUNDS);
                 mAlertDialog.cancel();
                 break;
         }

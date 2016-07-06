@@ -31,12 +31,16 @@ public class FundsModelImpl implements FundsModel {
     }
 
     @Override
-    public void savaFunds(Funds funds) {
+    public void savaFunds(Funds funds, int requestCode, OnDataRequestListener listener) {
         fundsDao.insert(funds);
+        QueryBuilder queryBuilder = fundsDao.queryBuilder();
+        listener.onSuccess(queryBuilder.list(), requestCode);
     }
 
     @Override
-    public void deleteFunds(Funds funds) {
+    public void deleteFunds(Funds funds, int requestCode, OnDataRequestListener listener) {
         fundsDao.delete(funds);
+        QueryBuilder queryBuilder = fundsDao.queryBuilder();
+        listener.onSuccess(queryBuilder.list(), requestCode);
     }
 }
