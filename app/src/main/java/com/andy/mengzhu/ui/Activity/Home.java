@@ -1,6 +1,5 @@
 package com.andy.mengzhu.ui.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +18,6 @@ import com.andy.mengzhu.model.entity.Category;
 import com.andy.mengzhu.presenter.HomePresenter;
 import com.andy.mengzhu.presenter.impl.HomePresenterImpl;
 import com.andy.mengzhu.ui.adapter.CategoryAdapter;
-import com.andy.mengzhu.ui.common.BaseActivity;
 import com.andy.mengzhu.ui.component.SwitchAndy;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
 import com.andy.mengzhu.ui.view.DataRequestView;
@@ -27,12 +25,10 @@ import com.andy.mengzhu.ui.view.DataRequestView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends Fragment implements View.OnClickListener, DataRequestView {
-
-    /**
-     * 添加新账务按钮
-     */
-    private FloatingActionButton fab;
+/**
+ * 首页
+ */
+public class Home extends Fragment implements View.OnClickListener, DataRequestView {
 
     /**
      * 账务显示，可以点击切换显示月和周
@@ -88,7 +84,7 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Data
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.activity_home, container, false);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home, container, false);
 
         findView(view);
         setListener();
@@ -98,7 +94,6 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Data
 
 
     private void findView(View view) {
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         switchAndy = (SwitchAndy) view.findViewById(R.id.balance);
         categoryView = (RecyclerView) view.findViewById(R.id.list_category);
 
@@ -109,7 +104,6 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Data
     }
 
     private void setListener() {
-        fab.setOnClickListener(this);
         switchAndy.setOnClickListener(this);
     }
 
@@ -130,11 +124,6 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Data
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fab:
-                Intent intent = new Intent(getActivity(), AddRecord.class);
-                startActivity(intent);
-                break;
-
             case R.id.balance:
                 homePresenter.getBalanceOfPayments(switchAndy.getFlag(), REQUEST_BALANCEOFPAYMENTS);
                 break;

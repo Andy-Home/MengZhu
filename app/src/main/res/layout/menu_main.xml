@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="208dp"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- 头像 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:paddingBottom="46dp"
+        android:paddingTop="46dp"
+        android:src="@drawable/head" />
+
+    <!-- 分隔线 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/balance"
+        android:src="@drawable/line_gray" />
+
+    <RelativeLayout
+        android:id="@+id/menu_funds"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:text="@string/menu_funds"
+            android:gravity="center"
+            android:textSize="@dimen/add_record_text_size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <!-- 分隔线 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/balance"
+        android:src="@drawable/line_gray" />
+
+    <RelativeLayout
+        android:id="@+id/menu_category"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:text="@string/menu_category"
+            android:gravity="center"
+            android:textSize="@dimen/add_record_text_size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <!-- 分隔线 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/balance"
+        android:src="@drawable/line_gray" />
+
+</LinearLayout>

@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 /**
+ * MainActivity 类中 ViewPager 的适配器
+ *
  * Created by Administrator on 2016/7/5 0005.
  */
 public class TabPageAdapter extends FragmentPagerAdapter {

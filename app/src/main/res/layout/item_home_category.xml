@@ -10,7 +10,7 @@
         android:gravity="center_vertical|left"
         android:layout_width="0dp"
         android:layout_height="36dp"
-        android:textSize="16dp"
+        android:textSize="@dimen/add_record_text_size"
         android:layout_weight="1"
         android:layout_marginLeft="10dp"
         android:text="类目"/>
@@ -21,7 +21,7 @@
         android:gravity="center_vertical|right"
         android:layout_marginRight="10dp"
         android:layout_height="36dp"
-        android:textSize="16dp"
+        android:textSize="@dimen/add_record_text_size"
         android:layout_weight="1"
         android:text="0.00"/>
 </LinearLayout>

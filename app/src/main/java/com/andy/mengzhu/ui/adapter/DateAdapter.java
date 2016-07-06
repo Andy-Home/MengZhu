@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * AddRecord 类中日期控件的适配器
+ *
  * Created by andy on 16-6-30.
  */
 public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> implements View.OnClickListener {

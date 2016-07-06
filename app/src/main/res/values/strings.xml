@@ -17,4 +17,10 @@
     <string name="finance_pay_location">扣款</string>
     <string name="finance_income_location">收入</string>
     <string name="save">保存</string>
+    <string name="menu_funds">资金项</string>
+    <string name="menu_category">类别项</string>
+    <string name="add_funds">添加资金项</string>
+    <string name="add_funds_title">请输入新的资金项</string>
+    <string name="cancel">取消</string>
+    <string name="determine">确定</string>
 </resources>

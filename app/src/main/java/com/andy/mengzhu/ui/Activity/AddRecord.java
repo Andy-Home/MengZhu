@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * 记账界面
+ *
  * Created by Administrator on 2016/6/28 0028.
  */
 public class AddRecord extends BaseActivity implements View.OnClickListener {
