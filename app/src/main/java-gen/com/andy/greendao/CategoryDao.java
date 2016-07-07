@@ -26,6 +26,7 @@ public class CategoryDao extends AbstractDao<Category, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Category_name = new Property(1, String.class, "category_name", false, "CATEGORY_NAME");
+        public final static Property Is_pay = new Property(2, Boolean.class, "is_pay", false, "IS_PAY");
     }
 
     ;
@@ -43,79 +44,73 @@ public class CategoryDao extends AbstractDao<Category, Long> {
      * Creates the underlying database table.
      */
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
-        String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+        String constraint = ifNotExists ? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"CATEGORY\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"CATEGORY_NAME\" TEXT);"); // 1: category_name
+                "\"CATEGORY_NAME\" TEXT," + // 1: category_name
+                "\"IS_PAY\" INTEGER);"); // 2: is_pay
     }
 
-    /**
-     * Drops the underlying database table.
-     */
+    /** Drops the underlying database table. */
     public static void dropTable(SQLiteDatabase db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"CATEGORY\"";
         db.execSQL(sql);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected void bindValues(SQLiteStatement stmt, Category entity) {
         stmt.clearBindings();
-
+ 
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
         }
-
+ 
         String category_name = entity.getCategory_name();
         if (category_name != null) {
             stmt.bindString(2, category_name);
         }
+
+        Boolean is_pay = entity.getIs_pay();
+        if (is_pay != null) {
+            stmt.bindLong(3, is_pay ? 1L : 0L);
+        }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Category readEntity(Cursor cursor, int offset) {
         Category entity = new Category( //
                 cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-                cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // category_name
+                cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // category_name
+                cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0 // is_pay
         );
         return entity;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Category entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setCategory_name(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setIs_pay(cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Category entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long getKey(Category entity) {
         if (entity != null) {
@@ -128,9 +123,9 @@ public class CategoryDao extends AbstractDao<Category, Long> {
     /**
      * @inheritdoc
      */
-    @Override
+    @Override    
     protected boolean isEntityUpdateable() {
         return true;
     }
-
+    
 }

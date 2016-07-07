@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginRight="@dimen/margin"
+    android:layout_marginLeft="@dimen/margin"
+    android:layout_height="36dp">
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="中餐" />
+
+    <TextView
+        android:id="@+id/funds"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:text="零钱" />
+
+    <TextView
+        android:id="@+id/into_or_out"
+        android:layout_toLeftOf="@id/funds"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_marginRight="6dp"
+        android:layout_height="match_parent"
+        android:text="123" />
+
+    <TextView
+        android:id="@+id/num"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginRight="6dp"
+        android:layout_toLeftOf="@id/into_or_out"
+        android:text="0.00" />
+</RelativeLayout>

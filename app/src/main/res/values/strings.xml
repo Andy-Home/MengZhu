@@ -25,4 +25,6 @@
     <string name="add_category_title">请输入新的类别项</string>
     <string name="cancel">取消</string>
     <string name="determine">确定</string>
+    <string name="income">收入项</string>
+    <string name="pay">支出项</string>
 </resources>

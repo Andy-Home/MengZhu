@@ -38,9 +38,14 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     private Toolbar mToolbar;
 
     /**
-     * 点击添加之后弹出该对话框，供用户填写新的类别项
+     * 用户选择收入或者支出项之后弹出该对话框，供用户填写新的类别项
      */
     private AlertDialog mAlertDialog;
+
+    /**
+     * 用户点击添加之后，弹出该对话框，由用户选择支出项与收入项
+     */
+    private AlertDialog chooseDialog;
 
     /**
      * 新建的类别项的名字
@@ -56,6 +61,16 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
      * 对话框中的确定按钮
      */
     private Button determine;
+
+    /**
+     * 对话框中的收入项按钮
+     */
+    private TextView income;
+
+    /**
+     * 对话框中的支出项按钮
+     */
+    private TextView pay;
 
     /**
      * 类别项列表
@@ -77,8 +92,21 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
      */
     private CategoryPresenter categoryPresenter = null;
 
+    /**
+     * 判断新建的Category类型的数据是支出项还是收入项
+     */
+    private boolean isPay = true;
+
+    /**
+     * 获取Category类型数据请求的标志
+     */
     private static final int GET_CATEGORY = 1;
+
+    /**
+     * 保存Category类型数据请求的标志
+     */
     private static final int SAVE_CATEGORY = 2;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,7 +189,7 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_category:
-                setCategoryDialog();
+                setChooseDialog();
                 break;
         }
         return true;
@@ -186,6 +214,19 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
         determine.setOnClickListener(this);
     }
 
+    private void setChooseDialog() {
+        chooseDialog = new AlertDialog.Builder(this).create();
+        chooseDialog.show();
+        Window window = chooseDialog.getWindow();
+        window.setContentView(R.layout.dialog_is_pay);
+        window.setGravity(Gravity.CENTER);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        income = (TextView) window.findViewById(R.id.income);
+        pay = (TextView) window.findViewById(R.id.pay);
+        income.setOnClickListener(this);
+        pay.setOnClickListener(this);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -196,8 +237,21 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
             case R.id.determine:
                 Category category = new Category();
                 category.setCategory_name(categoryName.getText().toString());
+                category.setIs_pay(isPay);
                 categoryPresenter.savaCategory(category, SAVE_CATEGORY);
                 mAlertDialog.cancel();
+                break;
+
+            case R.id.pay:
+                isPay = true;
+                chooseDialog.cancel();
+                setCategoryDialog();
+                break;
+
+            case R.id.income:
+                isPay = false;
+                chooseDialog.cancel();
+                setCategoryDialog();
                 break;
         }
     }

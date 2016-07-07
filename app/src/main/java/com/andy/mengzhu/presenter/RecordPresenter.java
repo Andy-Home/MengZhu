@@ -14,4 +14,11 @@ public interface RecordPresenter {
      * @param record    要保存的记录
      */
     void saveRecord(Record record);
+
+    /**
+     * 获取所有的 Record
+     *
+     * @param requestCode
+     */
+    void getRecord(int requestCode);
 }

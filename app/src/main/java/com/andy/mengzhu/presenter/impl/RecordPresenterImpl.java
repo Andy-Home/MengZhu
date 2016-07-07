@@ -13,17 +13,22 @@ import com.andy.mengzhu.ui.view.DataRequestView;
  * Created by Administrator on 2016/7/4 0004.
  */
 public class RecordPresenterImpl  implements RecordPresenter, OnDataRequestListener{
-    private int requestCode = -1;
     private RecordModel recordModel;
-    DataRequestView view;
+    private DataRequestView view;
 
-    public RecordPresenterImpl(Activity activity){
+    public RecordPresenterImpl(Activity activity, DataRequestView view) {
         recordModel = new RecordModelImpl(activity);
+        this.view = view;
     }
 
     @Override
     public void saveRecord(Record record) {
         recordModel.saveRecord(record, this);
+    }
+
+    @Override
+    public void getRecord(int requestCode) {
+        recordModel.getRecord(requestCode, this);
     }
 
     @Override

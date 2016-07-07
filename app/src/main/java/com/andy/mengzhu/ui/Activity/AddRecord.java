@@ -13,26 +13,34 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.andy.greendao.Category;
+import com.andy.greendao.Funds;
 import com.andy.greendao.Record;
 import com.andy.mengzhu.R;
 import com.andy.mengzhu.app.util.DateUtil;
-import com.andy.mengzhu.presenter.HomePresenter;
+import com.andy.mengzhu.presenter.CategoryPresenter;
+import com.andy.mengzhu.presenter.FundsPresenter;
 import com.andy.mengzhu.presenter.RecordPresenter;
+import com.andy.mengzhu.presenter.impl.CategoryPresenterImpl;
+import com.andy.mengzhu.presenter.impl.FundsPresenterImpl;
 import com.andy.mengzhu.presenter.impl.RecordPresenterImpl;
 import com.andy.mengzhu.ui.adapter.DateAdapter;
+import com.andy.mengzhu.ui.adapter.SpinnerAdapter;
 import com.andy.mengzhu.ui.common.BaseActivity;
+import com.andy.mengzhu.ui.view.DataRequestView;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 记账界面
  *
  * Created by Administrator on 2016/6/28 0028.
  */
-public class AddRecord extends BaseActivity implements View.OnClickListener {
+public class AddRecord extends BaseActivity implements View.OnClickListener, DataRequestView {
      /**
      * 选择类别的控件
      */
@@ -93,13 +101,35 @@ public class AddRecord extends BaseActivity implements View.OnClickListener {
      */
     private Button save_record;
 
-    private RecordPresenter recordPresenter;
+    /**
+     * Presenter 层
+     */
+    private RecordPresenter mRecordPresenter;
+    private FundsPresenter mFundsPresenter;
+    private CategoryPresenter mCategoryPresenter;
+
+    /**
+     * 保存需要显示的 Funds 类型的数据
+     */
+    private List<Funds> fundsList = null;
+
+    /**
+     * 保存需要显示的 Category 类型的数据
+     */
+    private List<Category> categoryList = null;
+
+    private Long fundsID = null;
+    private Long categoryID = null;
+
+    private static final int GET_FUNDS = 1;
+    private static final int GET_CATEGORY = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
 
         findView();
+        initData();
         initializeView();
         setListener();
     }
@@ -119,17 +149,27 @@ public class AddRecord extends BaseActivity implements View.OnClickListener {
         save_record = (Button) findViewById(R.id.save);
     }
 
+    private void initData() {
+        mRecordPresenter = new RecordPresenterImpl(this, this);
+        mFundsPresenter = new FundsPresenterImpl(this, this);
+        mCategoryPresenter = new CategoryPresenterImpl(this, this);
+
+        mFundsPresenter.getFunds(GET_FUNDS);
+        mCategoryPresenter.getCategory(GET_CATEGORY);
+    }
+
     private void setListener() {
         //类别的监听
         categoryView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] category = getResources().getStringArray(R.array.category_name);
-                record_category.setText(category[i]);
+                record_category.setText(categoryList.get(i).getCategory_name());
+                categoryID = categoryList.get(i).getId();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                record_category.setText(categoryList.get(0).getCategory_name());
             }
         });
 
@@ -137,13 +177,13 @@ public class AddRecord extends BaseActivity implements View.OnClickListener {
         fundsView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] funds = getResources().getStringArray(R.array.funds_name);
-                record_funds.setText(funds[i]);
+                record_funds.setText(fundsList.get(i).getFunds_name());
+                fundsID = fundsList.get(i).getId();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                record_funds.setText(fundsList.get(0).getFunds_name());
             }
         });
 
@@ -195,15 +235,11 @@ public class AddRecord extends BaseActivity implements View.OnClickListener {
 
     private void initializeView() {
         //配置类别选择器
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.category_name, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        SpinnerAdapter adapter = new SpinnerAdapter(this, categoryList, false);
         categoryView.setAdapter(adapter);
 
         //配置资金流动项选择器，即收入项与扣款项
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
-                R.array.funds_name, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        SpinnerAdapter adapter1 = new SpinnerAdapter(this, fundsList);
         fundsView.setAdapter(adapter1);
 
         //配置日期选择器
@@ -228,11 +264,27 @@ public class AddRecord extends BaseActivity implements View.OnClickListener {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        record.setCategory(1);
-        record.setFunds(1);
+        record.setCategory_id(categoryID);
+        record.setFunds_id(fundsID);
         record.setDesc(descView.getText().toString());
-        recordPresenter = new RecordPresenterImpl(this);
-        recordPresenter.saveRecord(record);
+        mRecordPresenter.saveRecord(record);
         finish();
+    }
+
+    @Override
+    public void showError(int requestCode) {
+
+    }
+
+    @Override
+    public void setView(Object object, int requestCode) {
+        switch (requestCode) {
+            case GET_FUNDS:
+                fundsList = (List<Funds>) object;
+                break;
+            case GET_CATEGORY:
+                categoryList = (List<Category>) object;
+                break;
+        }
     }
 }

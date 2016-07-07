@@ -15,4 +15,11 @@ public interface RecordModel {
      * @param listener
      */
     void saveRecord(Record record, OnDataRequestListener listener);
+
+    /**
+     * 获取所有的 Record
+     *
+     * @param requestCode
+     */
+    void getRecord(int requestCode, OnDataRequestListener listener);
 }

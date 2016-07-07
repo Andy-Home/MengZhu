@@ -28,8 +28,11 @@ public class RecordDao extends AbstractDao<Record, Long> {
         public final static Property Num = new Property(1, Double.class, "num", false, "NUM");
         public final static Property Date = new Property(2, java.util.Date.class, "date", false, "DATE");
         public final static Property Desc = new Property(3, String.class, "desc", false, "DESC");
-        public final static Property Category = new Property(4, Integer.class, "category", false, "CATEGORY");
-        public final static Property Funds = new Property(5, Integer.class, "funds", false, "FUNDS");
+        public final static Property Category_id = new Property(4, Long.class, "category_id", false, "CATEGORY_ID");
+        public final static Property Funds_id = new Property(5, Long.class, "funds_id", false, "FUNDS_ID");
+        public final static Property Category_name = new Property(6, String.class, "category_name", false, "CATEGORY_NAME");
+        public final static Property Is_pay = new Property(7, Boolean.class, "is_pay", false, "IS_PAY");
+        public final static Property Funds_name = new Property(8, String.class, "funds_name", false, "FUNDS_NAME");
     }
 
     ;
@@ -47,73 +50,83 @@ public class RecordDao extends AbstractDao<Record, Long> {
      * Creates the underlying database table.
      */
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
-        String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+        String constraint = ifNotExists ? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"RECORD\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"NUM\" REAL," + // 1: num
                 "\"DATE\" INTEGER," + // 2: date
                 "\"DESC\" TEXT," + // 3: desc
-                "\"CATEGORY\" INTEGER," + // 4: category
-                "\"FUNDS\" INTEGER);"); // 5: funds
+                "\"CATEGORY_ID\" INTEGER," + // 4: category_id
+                "\"FUNDS_ID\" INTEGER," + // 5: funds_id
+                "\"CATEGORY_NAME\" TEXT," + // 6: category_name
+                "\"IS_PAY\" INTEGER," + // 7: is_pay
+                "\"FUNDS_NAME\" TEXT);"); // 8: funds_name
     }
 
-    /**
-     * Drops the underlying database table.
-     */
+    /** Drops the underlying database table. */
     public static void dropTable(SQLiteDatabase db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"RECORD\"";
         db.execSQL(sql);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected void bindValues(SQLiteStatement stmt, Record entity) {
         stmt.clearBindings();
-
+ 
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
         }
-
+ 
         Double num = entity.getNum();
         if (num != null) {
             stmt.bindDouble(2, num);
         }
-
+ 
         java.util.Date date = entity.getDate();
         if (date != null) {
             stmt.bindLong(3, date.getTime());
         }
-
+ 
         String desc = entity.getDesc();
         if (desc != null) {
             stmt.bindString(4, desc);
         }
 
-        Integer category = entity.getCategory();
-        if (category != null) {
-            stmt.bindLong(5, category);
+        Long category_id = entity.getCategory_id();
+        if (category_id != null) {
+            stmt.bindLong(5, category_id);
         }
 
-        Integer funds = entity.getFunds();
-        if (funds != null) {
-            stmt.bindLong(6, funds);
+        Long funds_id = entity.getFunds_id();
+        if (funds_id != null) {
+            stmt.bindLong(6, funds_id);
+        }
+
+        String category_name = entity.getCategory_name();
+        if (category_name != null) {
+            stmt.bindString(7, category_name);
+        }
+
+        Boolean is_pay = entity.getIs_pay();
+        if (is_pay != null) {
+            stmt.bindLong(8, is_pay ? 1L : 0L);
+        }
+
+        String funds_name = entity.getFunds_name();
+        if (funds_name != null) {
+            stmt.bindString(9, funds_name);
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Record readEntity(Cursor cursor, int offset) {
         Record entity = new Record( //
@@ -121,37 +134,37 @@ public class RecordDao extends AbstractDao<Record, Long> {
                 cursor.isNull(offset + 1) ? null : cursor.getDouble(offset + 1), // num
                 cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)), // date
                 cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // desc
-                cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // category
-                cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5) // funds
+                cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // category_id
+                cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5), // funds_id
+                cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // category_name
+                cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0, // is_pay
+                cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // funds_name
         );
         return entity;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Record entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setNum(cursor.isNull(offset + 1) ? null : cursor.getDouble(offset + 1));
         entity.setDate(cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)));
         entity.setDesc(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setCategory(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
-        entity.setFunds(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setCategory_id(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setFunds_id(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
+        entity.setCategory_name(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setIs_pay(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
+        entity.setFunds_name(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Record entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override
     public Long getKey(Record entity) {
         if (entity != null) {
@@ -164,9 +177,9 @@ public class RecordDao extends AbstractDao<Record, Long> {
     /**
      * @inheritdoc
      */
-    @Override
+    @Override    
     protected boolean isEntityUpdateable() {
         return true;
     }
-
+    
 }

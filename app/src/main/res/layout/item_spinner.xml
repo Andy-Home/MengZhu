@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 显示Category和Funds类型数据的名字 -->
+    <TextView
+        android:id="@+id/name"
+        android:textSize="@dimen/add_record_text_size"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="50dp" />
+
+</LinearLayout>

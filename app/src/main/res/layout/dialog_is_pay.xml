@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/fab_margin_right"
+    android:layout_marginRight="@dimen/fab_margin_right"
+    android:orientation="vertical">
+
+    <!-- 收入项 -->
+    <TextView
+        android:id="@+id/income"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:clickable="true"
+        android:textSize="@dimen/add_record_text_size"
+        android:text="@string/income" />
+
+    <!-- 分隔线 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:src="@drawable/line_gray" />
+
+    <!-- 支出项 -->
+    <TextView
+        android:id="@+id/pay"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:clickable="true"
+        android:textSize="@dimen/add_record_text_size"
+        android:text="@string/pay" />
+</LinearLayout>
