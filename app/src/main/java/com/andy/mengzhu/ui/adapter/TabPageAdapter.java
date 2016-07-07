@@ -3,6 +3,7 @@ package com.andy.mengzhu.ui.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 
 import java.util.List;
 
@@ -14,11 +15,12 @@ import java.util.List;
 public class TabPageAdapter extends FragmentPagerAdapter {
     List<Fragment> data = null;
     List<String> mTitle = null;
-
+    FragmentManager mFragmentManager = null;
     public TabPageAdapter(FragmentManager fm, List<Fragment> data, List<String> mTitle) {
         super(fm);
         this.data = data;
         this.mTitle = mTitle;
+        this.mFragmentManager = fm;
     }
 
     @Override
@@ -34,5 +36,11 @@ public class TabPageAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mTitle.get(position);
+    }
+
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

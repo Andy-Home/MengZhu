@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private List<String> mTitle = new ArrayList<>();
 
+    private static final int ADD_RECORD = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,4 +128,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        mTabPageAdapter.notifyDataSetChanged();
+    }
+
 }

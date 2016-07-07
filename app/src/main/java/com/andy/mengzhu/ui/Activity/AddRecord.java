@@ -1,5 +1,6 @@
 package com.andy.mengzhu.ui.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -268,6 +269,7 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         record.setFunds_id(fundsID);
         record.setDesc(descView.getText().toString());
         mRecordPresenter.saveRecord(record);
+
         finish();
     }
 
