@@ -26,7 +26,7 @@ public class CategoryDao extends AbstractDao<Category, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Category_name = new Property(1, String.class, "category_name", false, "CATEGORY_NAME");
-        public final static Property Is_pay = new Property(2, Boolean.class, "is_pay", false, "IS_PAY");
+        public final static Property Type = new Property(2, Integer.class, "type", false, "TYPE");
     }
 
     ;
@@ -48,7 +48,7 @@ public class CategoryDao extends AbstractDao<Category, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"CATEGORY\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"CATEGORY_NAME\" TEXT," + // 1: category_name
-                "\"IS_PAY\" INTEGER);"); // 2: is_pay
+                "\"TYPE\" INTEGER);"); // 2: type
     }
 
     /** Drops the underlying database table. */
@@ -72,9 +72,9 @@ public class CategoryDao extends AbstractDao<Category, Long> {
             stmt.bindString(2, category_name);
         }
 
-        Boolean is_pay = entity.getIs_pay();
-        if (is_pay != null) {
-            stmt.bindLong(3, is_pay ? 1L : 0L);
+        Integer type = entity.getType();
+        if (type != null) {
+            stmt.bindLong(3, type);
         }
     }
 
@@ -82,7 +82,7 @@ public class CategoryDao extends AbstractDao<Category, Long> {
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-    }
+    }    
 
     /** @inheritdoc */
     @Override
@@ -90,26 +90,26 @@ public class CategoryDao extends AbstractDao<Category, Long> {
         Category entity = new Category( //
                 cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
                 cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // category_name
-                cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0 // is_pay
+                cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2) // type
         );
         return entity;
     }
-
+     
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Category entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setCategory_name(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setIs_pay(cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0);
-    }
-
+        entity.setType(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
+     }
+    
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Category entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(Category entity) {
@@ -120,9 +120,7 @@ public class CategoryDao extends AbstractDao<Category, Long> {
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override    
     protected boolean isEntityUpdateable() {
         return true;

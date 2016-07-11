@@ -93,9 +93,9 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     private CategoryPresenter categoryPresenter = null;
 
     /**
-     * 判断新建的Category类型的数据是支出项还是收入项
+     * 新建的Category类型的数据类型，0为支出、1为收入、2为收借款、3为转账
      */
-    private boolean isPay = true;
+    private int type = 0;
 
     /**
      * 获取Category类型数据请求的标志
@@ -237,19 +237,19 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
             case R.id.determine:
                 Category category = new Category();
                 category.setCategory_name(categoryName.getText().toString());
-                category.setIs_pay(isPay);
+                category.setType(type);
                 categoryPresenter.savaCategory(category, SAVE_CATEGORY);
                 mAlertDialog.cancel();
                 break;
 
             case R.id.pay:
-                isPay = true;
+                type = 0;
                 chooseDialog.cancel();
                 setCategoryDialog();
                 break;
 
             case R.id.income:
-                isPay = false;
+                type = 1;
                 chooseDialog.cancel();
                 setCategoryDialog();
                 break;

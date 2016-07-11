@@ -28,7 +28,7 @@ public class DaoMaster extends AbstractDaoMaster {
         CategoryDao.createTable(db, ifNotExists);
         FundsDao.createTable(db, ifNotExists);
     }
-
+    
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(SQLiteDatabase db, boolean ifExists) {
         RecordDao.dropTable(db, ifExists);
@@ -48,7 +48,7 @@ public class DaoMaster extends AbstractDaoMaster {
             createAllTables(db, false);
         }
     }
-
+    
     /** WARNING: Drops all table on Upgrade! Use only during development. */
     public static class DevOpenHelper extends OpenHelper {
         public DevOpenHelper(Context context, String name, CursorFactory factory) {

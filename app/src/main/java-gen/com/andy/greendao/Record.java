@@ -11,10 +11,10 @@ public class Record {
     private java.util.Date date;
     private String desc;
     private Long category_id;
-    private Long funds_id;
     private String category_name;
-    private Boolean is_pay;
+    private Long funds_id;
     private String funds_name;
+    private Integer type;
 
     public Record() {
     }
@@ -23,16 +23,16 @@ public class Record {
         this.id = id;
     }
 
-    public Record(Long id, Double num, java.util.Date date, String desc, Long category_id, Long funds_id, String category_name, Boolean is_pay, String funds_name) {
+    public Record(Long id, Double num, java.util.Date date, String desc, Long category_id, String category_name, Long funds_id, String funds_name, Integer type) {
         this.id = id;
         this.num = num;
         this.date = date;
         this.desc = desc;
         this.category_id = category_id;
-        this.funds_id = funds_id;
         this.category_name = category_name;
-        this.is_pay = is_pay;
+        this.funds_id = funds_id;
         this.funds_name = funds_name;
+        this.type = type;
     }
 
     public Long getId() {
@@ -75,14 +75,6 @@ public class Record {
         this.category_id = category_id;
     }
 
-    public Long getFunds_id() {
-        return funds_id;
-    }
-
-    public void setFunds_id(Long funds_id) {
-        this.funds_id = funds_id;
-    }
-
     public String getCategory_name() {
         return category_name;
     }
@@ -91,12 +83,12 @@ public class Record {
         this.category_name = category_name;
     }
 
-    public Boolean getIs_pay() {
-        return is_pay;
+    public Long getFunds_id() {
+        return funds_id;
     }
 
-    public void setIs_pay(Boolean is_pay) {
-        this.is_pay = is_pay;
+    public void setFunds_id(Long funds_id) {
+        this.funds_id = funds_id;
     }
 
     public String getFunds_name() {
@@ -105,6 +97,14 @@ public class Record {
 
     public void setFunds_name(String funds_name) {
         this.funds_name = funds_name;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
 }

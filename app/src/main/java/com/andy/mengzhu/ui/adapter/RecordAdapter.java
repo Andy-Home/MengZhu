@@ -60,8 +60,16 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RecordViewHolder) {
             ((RecordViewHolder) holder).desc.setText(recordList.get(position).getDesc());
-            //((RecordViewHolder) holder).funds.setText(recordList.get(position).getFunds());
+            ((RecordViewHolder) holder).funds.setText(recordList.get(position).getFunds_name());
             ((RecordViewHolder) holder).num.setText(recordList.get(position).getNum() + "");
+            //账务类型 0为支出、1为收入、2为收借款、3为转账
+            int recordType = recordList.get(position).getType();
+
+            if (recordType == 0) {
+                ((RecordViewHolder) holder).into_or_out.setText("<——");
+            } else if (recordType == 1) {
+                ((RecordViewHolder) holder).into_or_out.setText("——>");
+            }
         } else if (holder instanceof DateViewHolder) {
             ((DateViewHolder) holder).date.setText(sdf.format(recordList.get(position).getDate()));
         }

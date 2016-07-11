@@ -17,16 +17,17 @@ public class GreenDao {
         record.addDateProperty("date");
         record.addStringProperty("desc");
         record.addLongProperty("category_id");
-        record.addLongProperty("funds_id");
         record.addStringProperty("category_name");
-        record.addBooleanProperty("is_pay");
+        record.addLongProperty("funds_id");
         record.addStringProperty("funds_name");
+        record.addIntProperty("type");
 
         //类目表
         Entity category = schema.addEntity("Category");
         category.addIdProperty().primaryKey();
         category.addStringProperty("category_name");
-        category.addBooleanProperty("is_pay");
+        //类目的类型： 0为支出、1为收入、2为收借款、3为转账
+        category.addIntProperty("type");
 
         //资金项表
         Entity funds = schema.addEntity("Funds");

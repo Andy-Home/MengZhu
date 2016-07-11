@@ -29,10 +29,10 @@ public class RecordDao extends AbstractDao<Record, Long> {
         public final static Property Date = new Property(2, java.util.Date.class, "date", false, "DATE");
         public final static Property Desc = new Property(3, String.class, "desc", false, "DESC");
         public final static Property Category_id = new Property(4, Long.class, "category_id", false, "CATEGORY_ID");
-        public final static Property Funds_id = new Property(5, Long.class, "funds_id", false, "FUNDS_ID");
-        public final static Property Category_name = new Property(6, String.class, "category_name", false, "CATEGORY_NAME");
-        public final static Property Is_pay = new Property(7, Boolean.class, "is_pay", false, "IS_PAY");
-        public final static Property Funds_name = new Property(8, String.class, "funds_name", false, "FUNDS_NAME");
+        public final static Property Category_name = new Property(5, String.class, "category_name", false, "CATEGORY_NAME");
+        public final static Property Funds_id = new Property(6, Long.class, "funds_id", false, "FUNDS_ID");
+        public final static Property Funds_name = new Property(7, String.class, "funds_name", false, "FUNDS_NAME");
+        public final static Property Type = new Property(8, Integer.class, "type", false, "TYPE");
     }
 
     ;
@@ -57,10 +57,10 @@ public class RecordDao extends AbstractDao<Record, Long> {
                 "\"DATE\" INTEGER," + // 2: date
                 "\"DESC\" TEXT," + // 3: desc
                 "\"CATEGORY_ID\" INTEGER," + // 4: category_id
-                "\"FUNDS_ID\" INTEGER," + // 5: funds_id
-                "\"CATEGORY_NAME\" TEXT," + // 6: category_name
-                "\"IS_PAY\" INTEGER," + // 7: is_pay
-                "\"FUNDS_NAME\" TEXT);"); // 8: funds_name
+                "\"CATEGORY_NAME\" TEXT," + // 5: category_name
+                "\"FUNDS_ID\" INTEGER," + // 6: funds_id
+                "\"FUNDS_NAME\" TEXT," + // 7: funds_name
+                "\"TYPE\" INTEGER);"); // 8: type
     }
 
     /** Drops the underlying database table. */
@@ -93,30 +93,30 @@ public class RecordDao extends AbstractDao<Record, Long> {
         if (desc != null) {
             stmt.bindString(4, desc);
         }
-
+ 
         Long category_id = entity.getCategory_id();
         if (category_id != null) {
             stmt.bindLong(5, category_id);
         }
+ 
+        String category_name = entity.getCategory_name();
+        if (category_name != null) {
+            stmt.bindString(6, category_name);
+        }
 
         Long funds_id = entity.getFunds_id();
         if (funds_id != null) {
-            stmt.bindLong(6, funds_id);
+            stmt.bindLong(7, funds_id);
         }
-
-        String category_name = entity.getCategory_name();
-        if (category_name != null) {
-            stmt.bindString(7, category_name);
-        }
-
-        Boolean is_pay = entity.getIs_pay();
-        if (is_pay != null) {
-            stmt.bindLong(8, is_pay ? 1L : 0L);
-        }
-
+ 
         String funds_name = entity.getFunds_name();
         if (funds_name != null) {
-            stmt.bindString(9, funds_name);
+            stmt.bindString(8, funds_name);
+        }
+
+        Integer type = entity.getType();
+        if (type != null) {
+            stmt.bindLong(9, type);
         }
     }
 
@@ -124,7 +124,7 @@ public class RecordDao extends AbstractDao<Record, Long> {
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-    }
+    }    
 
     /** @inheritdoc */
     @Override
@@ -135,14 +135,14 @@ public class RecordDao extends AbstractDao<Record, Long> {
                 cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)), // date
                 cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // desc
                 cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // category_id
-                cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5), // funds_id
-                cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // category_name
-                cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0, // is_pay
-                cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // funds_name
+                cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // category_name
+                cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6), // funds_id
+                cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // funds_name
+                cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // type
         );
         return entity;
     }
-
+     
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Record entity, int offset) {
@@ -151,19 +151,19 @@ public class RecordDao extends AbstractDao<Record, Long> {
         entity.setDate(cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)));
         entity.setDesc(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setCategory_id(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
-        entity.setFunds_id(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
-        entity.setCategory_name(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setIs_pay(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
-        entity.setFunds_name(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-    }
-
+        entity.setCategory_name(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setFunds_id(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
+        entity.setFunds_name(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setType(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+     }
+    
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Record entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-
+    
     /** @inheritdoc */
     @Override
     public Long getKey(Record entity) {
@@ -174,9 +174,7 @@ public class RecordDao extends AbstractDao<Record, Long> {
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     @Override    
     protected boolean isEntityUpdateable() {
         return true;

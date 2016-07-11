@@ -121,7 +121,10 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
 
     private Long fundsID = null;
     private Long categoryID = null;
-
+    /**
+     * 保存的账务的类型. 0为支出、1为收入、2为收借款、3为转账
+     */
+    private int type = 0;
     private static final int GET_FUNDS = 1;
     private static final int GET_CATEGORY = 2;
     @Override
@@ -166,6 +169,7 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 record_category.setText(categoryList.get(i).getCategory_name());
                 categoryID = categoryList.get(i).getId();
+                type = categoryList.get(i).getType();
             }
 
             @Override
@@ -268,6 +272,7 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         record.setCategory_id(categoryID);
         record.setFunds_id(fundsID);
         record.setDesc(descView.getText().toString());
+        record.setType(type);
         mRecordPresenter.saveRecord(record);
 
         finish();

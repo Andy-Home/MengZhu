@@ -8,7 +8,7 @@ public class Category {
 
     private Long id;
     private String category_name;
-    private Boolean is_pay;
+    private Integer type;
 
     public Category() {
     }
@@ -17,10 +17,10 @@ public class Category {
         this.id = id;
     }
 
-    public Category(Long id, String category_name, Boolean is_pay) {
+    public Category(Long id, String category_name, Integer type) {
         this.id = id;
         this.category_name = category_name;
-        this.is_pay = is_pay;
+        this.type = type;
     }
 
     public Long getId() {
@@ -39,12 +39,12 @@ public class Category {
         this.category_name = category_name;
     }
 
-    public Boolean getIs_pay() {
-        return is_pay;
+    public Integer getType() {
+        return type;
     }
 
-    public void setIs_pay(Boolean is_pay) {
-        this.is_pay = is_pay;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
 }
