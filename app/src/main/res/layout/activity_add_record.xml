@@ -100,7 +100,7 @@
     </RelativeLayout>
 
     <!-- 日期选择器的布局 -->
-    <android.support.v7.widget.RecyclerView
+    <com.andy.mengzhu.ui.component.DateChooser
         android:id="@+id/finance_date"
         android:layout_width="148dp"
         android:layout_height="88dp"

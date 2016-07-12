@@ -2,6 +2,7 @@ package com.andy.mengzhu.app.util;
 
 import android.util.Log;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -128,7 +129,26 @@ public class DateUtil {
         return weeks[week_index];
     }
 
+    /**
+     * 获取当前日期的下标位置
+     *
+     * @return 当前日期的下标位置
+     */
     public static int getPosition() {
         return position;
+    }
+
+    /**
+     * 根据日期获取下标位置
+     *
+     * @param date
+     * @return
+     */
+    public static int getPosition(Long date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date start;
+        start = sdf.parse(dateStart);
+        int ans = (int) ((date - start.getTime()) / (1000 * 60 * 60 * 24));
+        return ans;
     }
 }

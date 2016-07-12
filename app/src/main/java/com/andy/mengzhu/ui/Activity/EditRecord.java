@@ -1,14 +1,11 @@
 package com.andy.mengzhu.ui.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -38,12 +35,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 记账界面
- *
- * Created by Administrator on 2016/6/28 0028.
+ * Created by Administrator on 2016/7/12 0012.
  */
-public class AddRecord extends BaseActivity implements View.OnClickListener, DataRequestView {
-     /**
+public class EditRecord extends BaseActivity implements View.OnClickListener, DataRequestView {
+    /**
      * 选择类别的控件
      */
     private Spinner categoryView;
@@ -127,8 +122,26 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
      */
     private int type = 0;
 
+    /**
+     * 最初的日期
+     */
+    private Long initDate;
+
+    /**
+     * 编辑的记录的ID
+     */
+    private Long id;
+
+    /**
+     * 上一级页面传过来的值
+     */
+    private Bundle mBundle;
+
+    private boolean isFirst_Funds = true;
+    private boolean isFirst_Category = true;
     private static final int GET_FUNDS = 1;
     private static final int GET_CATEGORY = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +149,7 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
 
         findView();
         initData();
+        initView();
         initializeView();
         setListener();
     }
@@ -156,13 +170,29 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
     }
 
     private void initData() {
+        mBundle = getIntent().getExtras();
+        initDate = mBundle.getLong("date");
+        id = mBundle.getLong("id");
+        fundsID = mBundle.getLong("fundsId");
+        categoryID = mBundle.getLong("categoryId");
+        type = mBundle.getInt("type");
+
         mRecordPresenter = new RecordPresenterImpl(this, this);
         mFundsPresenter = new FundsPresenterImpl(this, this);
         mCategoryPresenter = new CategoryPresenterImpl(this, this);
 
-
         mFundsPresenter.getFunds(GET_FUNDS);
         mCategoryPresenter.getCategory(GET_CATEGORY);
+    }
+
+    private void initView() {
+        record_num.setText("" + mBundle.getDouble("num"));
+        record_desc.setText(mBundle.getString("desc"));
+        record_funds.setText(mBundle.getString("funds"));
+        record_category.setText(mBundle.getString("category"));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        record_date.setText(sdf.format(new Date(initDate)));
     }
 
     private void setListener() {
@@ -170,6 +200,11 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         categoryView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (isFirst_Category) {
+                    isFirst_Category = false;
+                    view.setVisibility(View.INVISIBLE);
+                    return;
+                }
                 record_category.setText(categoryList.get(i).getCategory_name());
                 categoryID = categoryList.get(i).getId();
                 type = categoryList.get(i).getType();
@@ -177,7 +212,9 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
                 record_category.setText(categoryList.get(0).getCategory_name());
+
             }
         });
 
@@ -185,6 +222,11 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         fundsView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (isFirst_Funds) {
+                    isFirst_Funds = false;
+                    view.setVisibility(View.INVISIBLE);
+                    return;
+                }
                 record_funds.setText(fundsList.get(i).getFunds_name());
                 fundsID = fundsList.get(i).getId();
             }
@@ -256,7 +298,11 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         dateView.setHasFixedSize(true);
         dateAdapter = new DateAdapter();
         dateView.setAdapter(dateAdapter);
-        dateView.scrollToPosition(DateUtil.getPosition()-1);
+        try {
+            dateView.scrollToPosition(DateUtil.getPosition(initDate) - 1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -274,7 +320,8 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         record.setFunds_id(fundsID);
         record.setDesc(record_desc.getText().toString());
         record.setType(type);
-        mRecordPresenter.saveRecord(record);
+        record.setId(id);
+        mRecordPresenter.updateRecord(record);
 
         finish();
     }
@@ -295,4 +342,5 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
                 break;
         }
     }
+
 }

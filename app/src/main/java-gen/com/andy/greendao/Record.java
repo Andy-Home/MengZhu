@@ -107,4 +107,17 @@ public class Record {
         this.type = type;
     }
 
+    /**
+     * 方便账务列表日期的显示
+     */
+    private int datePosition;
+
+    public int getDatePosition() {
+        return datePosition;
+    }
+
+    public void setDatePosition(int datePosition) {
+        this.datePosition = datePosition;
+    }
+
 }

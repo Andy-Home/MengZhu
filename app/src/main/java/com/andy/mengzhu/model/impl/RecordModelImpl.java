@@ -64,4 +64,14 @@ public class RecordModelImpl implements RecordModel {
         }
         listener.onSuccess(result, requestCode);
     }
+
+    @Override
+    public void deleteRecord(Record record) {
+        recordDao.delete(record);
+    }
+
+    @Override
+    public void updateRecord(Record record) {
+        recordDao.update(record);
+    }
 }

@@ -21,4 +21,18 @@ public interface RecordPresenter {
      * @param requestCode
      */
     void getRecord(int requestCode);
+
+    /**
+     * 删除对应的 Record
+     *
+     * @param record
+     */
+    void deleteRecord(Record record);
+
+    /**
+     * 更新Record
+     *
+     * @param record
+     */
+    void updateRecord(Record record);
 }

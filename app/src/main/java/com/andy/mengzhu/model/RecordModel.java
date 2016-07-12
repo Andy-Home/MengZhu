@@ -22,4 +22,18 @@ public interface RecordModel {
      * @param requestCode
      */
     void getRecord(int requestCode, OnDataRequestListener listener);
+
+    /**
+     * 删除对应的 Record
+     *
+     * @param record
+     */
+    void deleteRecord(Record record);
+
+    /**
+     * 更新 Record
+     *
+     * @param record
+     */
+    void updateRecord(Record record);
 }

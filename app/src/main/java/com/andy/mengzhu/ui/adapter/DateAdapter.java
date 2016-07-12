@@ -19,27 +19,12 @@ import java.util.List;
  *
  * Created by andy on 16-6-30.
  */
-public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> implements View.OnClickListener {
+public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
 
     /**
      * 保存要显示的数据
      */
     private List<Date> datas = new ArrayList<>();
-
-    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
-
-    /**
-     * 日期的点击事件监听器
-     */
-    public interface OnRecyclerViewItemClickListener {
-        /**
-         * 日期的点击事件的回调接口
-         *
-         * @param view
-         * @param date
-         */
-        void onItemClick(View view , Date date);
-    }
 
     public DateAdapter() {
         this.datas = DateUtil.findDate();
@@ -49,7 +34,6 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> im
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_record_dateselect, parent, false);
         ViewHolder vh = new ViewHolder(view);
-        view.setOnClickListener(this);
         return vh;
     }
 
@@ -58,7 +42,6 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> im
         holder.date.setText(DateUtil.getDay(datas.get(position)));
         holder.month.setText(DateUtil.getMonth(datas.get(position)));
         holder.week.setText(DateUtil.getWeek(datas.get(position)));
-        holder.itemView.setTag(datas.get(position));
     }
 
     @Override
@@ -79,14 +62,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> im
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(view,(Date)view.getTag());
-        }
-    }
-
-    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
-        this.mOnItemClickListener = listener;
+    public Date getDate(int position) {
+        return datas.get(position);
     }
 }

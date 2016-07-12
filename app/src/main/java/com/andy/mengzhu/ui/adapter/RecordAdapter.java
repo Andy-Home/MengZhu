@@ -1,5 +1,7 @@
 package com.andy.mengzhu.ui.adapter;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.widget.TextView;
 
 import com.andy.greendao.Record;
 import com.andy.mengzhu.R;
+import com.andy.mengzhu.presenter.RecordPresenter;
+import com.andy.mengzhu.presenter.impl.RecordPresenterImpl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +22,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/7/7 0007.
  */
-public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     /**
      * 需要显示的数据
      */
@@ -39,16 +43,29 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      */
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+    /**
+     * Presenter层
+     */
+    private RecordPresenter mRecordPresenter = null;
 
-    public RecordAdapter(List<Record> recordList) {
-        this.recordList = initData(recordList);
+    private OnItemClickListener itemClickListener;
+
+    public interface OnItemClickListener {
+        void OnItemClick(Record record);
     }
 
+    public RecordAdapter(List<Record> recordList, RecordPresenter mRecordPresenter) {
+        this.recordList = initData(recordList);
+        this.mRecordPresenter = mRecordPresenter;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == RECORD_TYPE) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_record_type1, parent, false);
+            view.setOnClickListener(this);
             return new RecordViewHolder(view);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_record_type2, parent, false);
@@ -70,6 +87,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else if (recordType == 1) {
                 ((RecordViewHolder) holder).into_or_out.setText("——>");
             }
+            holder.itemView.setTag(recordList.get(position));
         } else if (holder instanceof DateViewHolder) {
             ((DateViewHolder) holder).date.setText(sdf.format(recordList.get(position).getDate()));
         }
@@ -88,6 +106,11 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         return recordList.isEmpty() ? 0 : recordList.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+        itemClickListener.OnItemClick((Record) view.getTag());
     }
 
     protected static class RecordViewHolder extends RecyclerView.ViewHolder {
@@ -109,7 +132,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    protected static class DateViewHolder extends RecyclerView.ViewHolder {
+    public static class DateViewHolder extends RecyclerView.ViewHolder {
         public TextView date;
 
         public DateViewHolder(View itemView) {
@@ -118,8 +141,13 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
     //根据传入的Record集合, 将数据转化为方便显示的数据.
-    //如果某一日期是第一次出现，那么就在Record类型中保存相应的日期，并将金额变为-1.0，方便后面的判断
+    //如果某一日期是第一次出现，那么就在Record类型中保存相应的日期，并将金额项变为-1.0，方便后面的判断
+    //统计每一个日期下的记录数，并保存在Record类型中的ID项中当该记录数为0时，记录删除
     private List<Record> initData(List<Record> data) {
         List<Record> ans = new ArrayList<>();
 
@@ -131,16 +159,38 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             e.printStackTrace();
         }
 
+        int datePosition = 0;
         for (Record record : data) {
             if (!date.equals(record.getDate())) {
                 date = record.getDate();
                 Record record1 = new Record();
                 record1.setDate(date);
                 record1.setNum(-1.0);
+                record1.setId(Long.valueOf(0));
                 ans.add(record1);
+                datePosition = ans.size() - 1;
             }
+            Long recordNum = ans.get(datePosition).getId();
+            ans.get(datePosition).setId(recordNum + 1);
+            record.setDatePosition(datePosition);
             ans.add(record);
         }
         return ans;
+    }
+
+    public void removeRecord(int position) {
+        int datePosition = recordList.get(position).getDatePosition();
+
+        Long recordNum = recordList.get(datePosition).getId();
+        recordList.get(datePosition).setId(recordNum - 1);
+        //删除数据库中的数据
+        mRecordPresenter.deleteRecord(recordList.get(position));
+
+        recordList.remove(position);
+        notifyItemRemoved(position);
+        if (recordList.get(datePosition).getId().equals(Long.valueOf(0))) {
+            recordList.remove(datePosition);
+            notifyItemRemoved(datePosition);
+        }
     }
 }

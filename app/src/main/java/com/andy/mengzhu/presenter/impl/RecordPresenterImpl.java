@@ -32,6 +32,16 @@ public class RecordPresenterImpl  implements RecordPresenter, OnDataRequestListe
     }
 
     @Override
+    public void deleteRecord(Record record) {
+        recordModel.deleteRecord(record);
+    }
+
+    @Override
+    public void updateRecord(Record record) {
+        recordModel.updateRecord(record);
+    }
+
+    @Override
     public void onSuccess(Object object, int requestCode) {
         view.setView(object,requestCode);
     }

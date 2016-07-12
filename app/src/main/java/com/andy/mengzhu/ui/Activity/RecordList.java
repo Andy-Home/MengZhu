@@ -1,10 +1,13 @@
 package com.andy.mengzhu.ui.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,12 @@ import com.andy.mengzhu.R;
 import com.andy.mengzhu.presenter.OnDataRequestListener;
 import com.andy.mengzhu.presenter.RecordPresenter;
 import com.andy.mengzhu.presenter.impl.RecordPresenterImpl;
-import com.andy.mengzhu.ui.adapter.ListAdapter;
 import com.andy.mengzhu.ui.adapter.RecordAdapter;
 import com.andy.mengzhu.ui.view.DataRequestView;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
+import com.andy.mengzhu.ui.view.ItemTouchCallback;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -30,7 +34,7 @@ public class RecordList extends Fragment implements DataRequestView {
     private RecyclerView record_list;
     private RecordAdapter mRecordAdapter = null;
 
-    private RecordPresenter mRecordPresenter = null;
+    private RecordPresenterImpl mRecordPresenter = null;
     private List<Record> recordList = null;
 
     private static final int GET_RECORD = 1;
@@ -41,6 +45,7 @@ public class RecordList extends Fragment implements DataRequestView {
         findView(view);
         initData();
         initializeView();
+        setListener();
         return view;
     }
 
@@ -58,10 +63,38 @@ public class RecordList extends Fragment implements DataRequestView {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         record_list.setLayoutManager(mLayoutManager);
+
         record_list.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        record_list.setItemAnimator(new DefaultItemAnimator());
         record_list.setHasFixedSize(true);
-        mRecordAdapter = new RecordAdapter(recordList);
+        mRecordAdapter = new RecordAdapter(recordList, mRecordPresenter);
         record_list.setAdapter(mRecordAdapter);
+
+        ItemTouchHelper.Callback callback = new ItemTouchCallback(mRecordAdapter);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(record_list);
+
+    }
+
+    private void setListener() {
+        mRecordAdapter.setOnItemClickListener(new RecordAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(Record record) {
+                Intent intent = new Intent(getActivity(), EditRecord.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putDouble("num", record.getNum());
+                mBundle.putString("desc", record.getDesc());
+                mBundle.putLong("date", record.getDate().getTime());
+                mBundle.putString("funds", record.getFunds_name());
+                mBundle.putString("category", record.getCategory_name());
+                mBundle.putLong("id", record.getId());
+                mBundle.putLong("fundsId", record.getFunds_id());
+                mBundle.putLong("categoryId", record.getCategory_id());
+                mBundle.putInt("type", record.getType());
+                intent.putExtras(mBundle);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
