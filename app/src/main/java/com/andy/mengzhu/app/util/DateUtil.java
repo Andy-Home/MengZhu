@@ -151,4 +151,57 @@ public class DateUtil {
         int ans = (int) ((date - start.getTime()) / (1000 * 60 * 60 * 24));
         return ans;
     }
+
+    /**
+     * 本周的开始日期
+     *
+     * @return
+     */
+    public static Date getWeekStart() {
+        Calendar cal = Calendar.getInstance();
+        int num = cal.get(Calendar.DAY_OF_WEEK);
+        Long time = cal.getTime().getTime() - (num * (1000 * 60 * 60 * 24));
+        return new Date(time);
+    }
+
+    /**
+     * 本周结束日期
+     *
+     * @return
+     */
+    public static Date getWeekEnd() {
+        Calendar cal = Calendar.getInstance();
+        int num = cal.get(Calendar.DAY_OF_WEEK);
+        Long time = cal.getTime().getTime() + ((7 - num) * (1000 * 60 * 60 * 24));
+        return new Date(time);
+    }
+
+    /**
+     * 本月开始日期
+     *
+     * @return
+     */
+    public static Date getMonthStart() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+        //int num = cal.get(Calendar.DATE);
+        Long time = cal.getTime().getTime();
+        return new Date(time);
+    }
+
+
+    /**
+     * 本月结束日期
+     *
+     * @return
+     */
+    public static Date getMonthEnd() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        //int num = cal.get(Calendar.DATE);
+        Long time = cal.getTime().getTime();
+        return new Date(time);
+    }
 }

@@ -26,5 +26,13 @@ public interface CategoryPresenter {
      *
      * @param category
      */
-    void deleteCategory(Category category, int requestCode);
+    void deleteCategory(Category category);
+
+    /**
+     * 更新 Category
+     *
+     * @param category
+     * @param requestCode
+     */
+    void updateCategory(Category category, int requestCode);
 }

@@ -36,4 +36,11 @@ public interface RecordModel {
      * @param record
      */
     void updateRecord(Record record);
+
+    /**
+     * 根据object的类型，当该数据删除时，更新Record表中的数据
+     *
+     * @param object
+     */
+    void update(final Object object);
 }

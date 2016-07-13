@@ -1,5 +1,6 @@
 package com.andy.mengzhu.model;
 
+import com.andy.greendao.Category;
 import com.andy.greendao.Funds;
 import com.andy.mengzhu.presenter.OnDataRequestListener;
 
@@ -26,5 +27,14 @@ public interface FundsModel {
      *
      * @param funds
      */
-    void deleteFunds(Funds funds, int requestCode, OnDataRequestListener listener);
+    void deleteFunds(Funds funds);
+
+    /**
+     * 更新 Funds
+     *
+     * @param funds
+     * @param requestCode
+     * @param listener
+     */
+    void updateFunds(Funds funds, int requestCode, OnDataRequestListener listener);
 }

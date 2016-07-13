@@ -1,5 +1,6 @@
 package com.andy.mengzhu.ui.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +26,7 @@ import com.andy.mengzhu.presenter.impl.CategoryPresenterImpl;
 import com.andy.mengzhu.ui.adapter.ListAdapter;
 import com.andy.mengzhu.ui.view.DataRequestView;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
+import com.andy.mengzhu.ui.view.ItemTouchCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +101,16 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     private int type = 0;
 
     /**
+     * 判断是否是添加模式
+     */
+    private boolean isAdd = false;
+
+    /**
+     * 用户在列表中的点击位置
+     */
+    private int position = 0;
+
+    /**
      * 获取Category类型数据请求的标志
      */
     private static final int GET_CATEGORY = 1;
@@ -107,6 +120,10 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
      */
     private static final int SAVE_CATEGORY = 2;
 
+    /**
+     * 更新Category类型数据请求的标志
+     */
+    private static final int UPDATE_CATEGORY = 3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,6 +138,13 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
 
     private void setListener() {
         mToolbar.setOnMenuItemClickListener(this);
+        mListAdapter.setOnItemClickListener(new ListAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                modifyCategoryDialog(position);
+            }
+        });
     }
 
     private void findView() {
@@ -145,8 +169,12 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
         category_list.setLayoutManager(mLayoutManager);
         category_list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         category_list.setHasFixedSize(true);
-        mListAdapter = new ListAdapter(categories, false);
+        mListAdapter = new ListAdapter(categories, categoryPresenter);
         category_list.setAdapter(mListAdapter);
+
+        ItemTouchHelper.Callback callback = new ItemTouchCallback(mListAdapter);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(category_list);
     }
 
     @Override
@@ -162,6 +190,11 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
                 initializeView();
                 break;
             case SAVE_CATEGORY:
+                categories.clear();
+                categories.addAll((List<Category>) object);
+                mListAdapter.notifyDataSetChanged();
+                break;
+            case UPDATE_CATEGORY:
                 categories.clear();
                 categories.addAll((List<Category>) object);
                 mListAdapter.notifyDataSetChanged();
@@ -196,9 +229,31 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     }
 
     /**
+     * 用户修改类别项
+     */
+    private void modifyCategoryDialog(int position) {
+        isAdd = false;
+        this.position = position;
+        mAlertDialog = new AlertDialog.Builder(this).create();
+        mAlertDialog.show();
+        Window window = mAlertDialog.getWindow();
+        window.setContentView(R.layout.dialog_add);
+        window.setGravity(Gravity.CENTER);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        TextView tv_title = (TextView) window.findViewById(R.id.title);
+        tv_title.setText(R.string.modify_category_title);
+        categoryName = (EditText) window.findViewById(R.id.name);
+        cancel = (Button) window.findViewById(R.id.cancel);
+        determine = (Button) window.findViewById(R.id.determine);
+        cancel.setOnClickListener(this);
+        determine.setOnClickListener(this);
+    }
+
+    /**
      * 自定对话框. 用户添加新的类别项，显示自定义的对话框
      */
     private void setCategoryDialog() {
+        isAdd = true;
         mAlertDialog = new AlertDialog.Builder(this).create();
         mAlertDialog.show();
         Window window = mAlertDialog.getWindow();
@@ -236,9 +291,16 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
 
             case R.id.determine:
                 Category category = new Category();
-                category.setCategory_name(categoryName.getText().toString());
-                category.setType(type);
-                categoryPresenter.savaCategory(category, SAVE_CATEGORY);
+                if (isAdd) {
+                    category.setCategory_name(categoryName.getText().toString());
+                    category.setType(type);
+                    categoryPresenter.savaCategory(category, SAVE_CATEGORY);
+                } else {
+                    category = categories.get(position);
+                    category.setCategory_name(categoryName.getText().toString());
+                    categoryPresenter.updateCategory(category, UPDATE_CATEGORY);
+                }
+
                 mAlertDialog.cancel();
                 break;
 

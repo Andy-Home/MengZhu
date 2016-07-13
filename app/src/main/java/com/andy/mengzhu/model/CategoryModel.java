@@ -37,5 +37,14 @@ public interface CategoryModel {
      *
      * @param category
      */
-    void deleteCategory(Category category, int requestCode, OnDataRequestListener listener);
+    void deleteCategory(Category category);
+
+    /**
+     * 更新 Category
+     *
+     * @param category
+     * @param requestCode
+     * @param listener
+     */
+    void updateCategory(Category category, int requestCode, OnDataRequestListener listener);
 }

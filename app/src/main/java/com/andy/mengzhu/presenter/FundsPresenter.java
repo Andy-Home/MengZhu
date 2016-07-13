@@ -1,5 +1,6 @@
 package com.andy.mengzhu.presenter;
 
+import com.andy.greendao.Category;
 import com.andy.greendao.Funds;
 
 /**
@@ -26,5 +27,13 @@ public interface FundsPresenter {
      *
      * @param funds
      */
-    void deleteFunds(Funds funds, int requestCode);
+    void deleteFunds(Funds funds);
+
+    /**
+     * 更新 Funds
+     *
+     * @param funds
+     * @param requestCode
+     */
+    void updateFunds(Funds funds, int requestCode);
 }

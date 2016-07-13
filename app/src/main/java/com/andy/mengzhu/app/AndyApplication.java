@@ -102,9 +102,5 @@ public class AndyApplication extends Application{
             mFunds.setFunds_name(fundsName[i]);
             mFundsDao.insert(mFunds);
         }
-        /*Category category = new Category();
-        category.setCategory_name(categoryName.getText().toString());
-        category.setIs_pay(isPay);
-        categoryPresenter.savaCategory(category, SAVE_CATEGORY);*/
     }
 }

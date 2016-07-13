@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.andy.mengzhu.R;
-import com.andy.mengzhu.model.entity.Category;
+import com.andy.mengzhu.model.entity.CategoryStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +22,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     /**
      * Category 类型的数据，用来在 ListView 中显示
      */
-    private List<Category> datas = new ArrayList<>();
+    private List<CategoryStatistics> datas = new ArrayList<>();
 
-    public CategoryAdapter(List<Category> datas) {
+    public CategoryAdapter(List<CategoryStatistics> datas) {
         this.datas = datas;
     }
 

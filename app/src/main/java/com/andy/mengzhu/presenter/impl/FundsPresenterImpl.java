@@ -32,9 +32,15 @@ public class FundsPresenterImpl implements FundsPresenter, OnDataRequestListener
     }
 
     @Override
-    public void deleteFunds(Funds funds, int requestCode) {
-        fundsModel.deleteFunds(funds, requestCode, this);
+    public void deleteFunds(Funds funds) {
+        fundsModel.deleteFunds(funds);
     }
+
+    @Override
+    public void updateFunds(Funds funds, int requestCode) {
+        fundsModel.updateFunds(funds, requestCode, this);
+    }
+
 
     @Override
     public void onSuccess(Object object, int requestCode) {

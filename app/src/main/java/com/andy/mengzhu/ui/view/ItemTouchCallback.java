@@ -3,6 +3,8 @@ package com.andy.mengzhu.ui.view;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.andy.mengzhu.ui.adapter.CategoryAdapter;
+import com.andy.mengzhu.ui.adapter.ListAdapter;
 import com.andy.mengzhu.ui.adapter.RecordAdapter;
 
 /**
@@ -44,6 +46,8 @@ public class ItemTouchCallback extends ItemTouchHelper.Callback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         if (adapter instanceof RecordAdapter) {
             ((RecordAdapter) adapter).removeRecord(viewHolder.getAdapterPosition());
+        } else if (adapter instanceof ListAdapter) {
+            ((ListAdapter) adapter).removeData(viewHolder.getAdapterPosition());
         }
     }
 }

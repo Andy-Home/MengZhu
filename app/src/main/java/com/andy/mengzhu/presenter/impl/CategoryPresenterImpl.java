@@ -32,8 +32,13 @@ public class CategoryPresenterImpl implements CategoryPresenter, OnDataRequestLi
     }
 
     @Override
-    public void deleteCategory(Category category, int requestCode) {
-        categoryModel.deleteCategory(category, requestCode, this);
+    public void deleteCategory(Category category) {
+        categoryModel.deleteCategory(category);
+    }
+
+    @Override
+    public void updateCategory(Category category, int requestCode) {
+        categoryModel.updateCategory(category, requestCode, this);
     }
 
     @Override

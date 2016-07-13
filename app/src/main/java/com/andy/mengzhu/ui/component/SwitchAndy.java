@@ -121,15 +121,13 @@ public class SwitchAndy extends View {
 
     }
 
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_UP:
                 if(flag == SWITCH_WEEK){
                     flag = SWITCH_MONTH;
-                }else {
+                } else if (flag == SWITCH_MONTH) {
                     flag = SWITCH_WEEK;
                 }
                 invalidate();

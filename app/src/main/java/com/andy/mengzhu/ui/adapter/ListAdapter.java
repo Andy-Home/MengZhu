@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.andy.greendao.Category;
 import com.andy.greendao.Funds;
 import com.andy.mengzhu.R;
+import com.andy.mengzhu.presenter.CategoryPresenter;
+import com.andy.mengzhu.presenter.FundsPresenter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +38,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
     private boolean isFunds = true;
 
     /**
+     * Presenter 层
+     */
+    private CategoryPresenter mCategoryPresenter = null;
+    private FundsPresenter mFundsPresenter = null;
+    /**
      * 使用
      */
     private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
@@ -53,20 +60,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
         void onItemClick(View view, int position);
     }
 
-    /**
-     * ListAdapter 构造函数
-     *
-     * @param data
-     * @param isFunds isFunds为true时，则将传入的数据作为 List<Funds> 格式的数据，
-     *                否则为 List<Category>
-     */
-    public ListAdapter(List data, boolean isFunds) {
-        this.isFunds = isFunds;
-        if (isFunds) {
-            this.funds = (List<Funds>) data;
-        } else {
-            this.categories = (List<Category>) data;
-        }
+
+    public ListAdapter(List<Category> categories, CategoryPresenter mCategoryPresenter) {
+        this.categories = categories;
+        isFunds = false;
+        this.mCategoryPresenter = mCategoryPresenter;
+    }
+
+    public ListAdapter(List<Funds> funds, FundsPresenter mFundsPresenter) {
+        this.funds = funds;
+        isFunds = true;
+        this.mFundsPresenter = mFundsPresenter;
     }
 
     @Override
@@ -114,5 +118,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.onRecyclerViewItemClickListener = listener;
+    }
+
+    public void removeData(int position) {
+        if (isFunds) {
+            mFundsPresenter.deleteFunds(funds.get(position));
+            funds.remove(position);
+        } else {
+            mCategoryPresenter.deleteCategory(categories.get(position));
+            categories.remove(position);
+        }
+        notifyItemRemoved(position);
     }
 }
