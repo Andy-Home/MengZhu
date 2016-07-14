@@ -38,6 +38,9 @@
 
         <!-- 类别项列表页面 -->
         <activity android:name=".ui.Activity.CategoryList" />
+
+        <!-- 关于页面 -->
+        <activity android:name=".ui.Activity.About" />
     </application>
 
 </manifest>

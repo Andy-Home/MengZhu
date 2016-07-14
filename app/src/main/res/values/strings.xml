@@ -31,4 +31,8 @@
     <string name="determine">确定</string>
     <string name="income">收入项</string>
     <string name="pay">支出项</string>
+    <string name="menu_about">关于</string>
+    <string name="author">Author: 朱峰</string>
+    <string name="blog">Blog: http://blog.csdn.net/u011434547</string>
+    <string name="github">GitHub: https://github.com/Andy-Home</string>
 </resources>

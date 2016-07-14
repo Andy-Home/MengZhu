@@ -6,11 +6,12 @@
     android:orientation="vertical">
 
     <!-- 头像 -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:paddingBottom="46dp"
-        android:paddingTop="46dp"
+    <com.andy.mengzhu.ui.component.CircleImage
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/head" />
 
     <!-- 分隔线 -->
@@ -47,6 +48,26 @@
 
         <TextView
             android:text="@string/menu_category"
+            android:gravity="center"
+            android:textSize="@dimen/add_record_text_size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <!-- 分隔线 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/balance"
+        android:src="@drawable/line_gray" />
+
+    <RelativeLayout
+        android:id="@+id/menu_about"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:text="@string/menu_about"
             android:gravity="center"
             android:textSize="@dimen/add_record_text_size"
             android:layout_width="match_parent"

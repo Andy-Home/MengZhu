@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.andy.mengzhu.R;
 import com.andy.mengzhu.ui.adapter.TabPageAdapter;
+import com.andy.mengzhu.ui.common.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.List;
  *
  * Created by Administrator on 2016/7/5 0005.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     /**
      * 添加新账务按钮
      */
@@ -36,8 +37,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private Toolbar toolbar;
 
+    /**
+     * 实现ActionBar按钮的变化
+     */
     private ActionBarDrawerToggle mDrawerToggle;
 
+    /**
+     * 侧滑布局
+     */
     private DrawerLayout mDrawerLayout;
 
     /**
@@ -49,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 菜单中的类别项
      */
     private RelativeLayout menu_category;
+
+    /**
+     * 菜单中的关于项
+     */
+    private RelativeLayout menu_about;
 
     /**
      * 标签布局
@@ -94,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         menu_funds = (RelativeLayout) findViewById(R.id.menu_funds);
         menu_category = (RelativeLayout) findViewById(R.id.menu_category);
+        menu_about = (RelativeLayout) findViewById(R.id.menu_about);
     }
 
     private void setToolBar() {
@@ -107,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);
         menu_funds.setOnClickListener(this);
         menu_category.setOnClickListener(this);
+        menu_about.setOnClickListener(this);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -191,6 +205,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.menu_category:
                 Intent intent2 = new Intent(this, CategoryList.class);
                 startActivity(intent2);
+                break;
+
+            case R.id.menu_about:
+                Intent intent3 = new Intent(this, About.class);
+                startActivity(intent3);
                 break;
         }
     }

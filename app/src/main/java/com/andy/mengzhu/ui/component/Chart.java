@@ -59,10 +59,6 @@ public class Chart extends View {
      */
     private boolean isMonth = true;
 
-    //The degree position of the last item arc's center.
-    private float lastDegree = 0;
-    //The count of the continues 'small' item.
-    private int addTimes = 0;
 
     private float smallMargin = 18;
 
@@ -101,6 +97,9 @@ public class Chart extends View {
         RectF oval = new RectF(point.x - radius, point.y - radius, point.x + radius, point.y + radius);
         float startAngle = 0.0f;
         int index = 0;
+        float lastDegree = 0;
+        //计算小扇形的连续个数
+        int addTimes = 0;
         for (CategoryStatistics cs : statisticsList) {
             if (cs.getCategoryNum() == 0) {
                 continue;
