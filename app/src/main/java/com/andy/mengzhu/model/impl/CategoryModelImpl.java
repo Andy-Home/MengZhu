@@ -65,8 +65,24 @@ public class CategoryModelImpl implements CategoryModel {
         listener.onSuccess(getAllCategory(), requestCode);
     }
 
+    /**
+     * 获取所有的目录
+     *
+     * @return
+     */
     public List<Category> getAllCategory() {
         QueryBuilder queryBuilder = categoryDao.queryBuilder();
+        return queryBuilder.list();
+    }
+
+    /**
+     * 获取支付的目录
+     *
+     * @return
+     */
+    public List<Category> getPayCategory() {
+        QueryBuilder queryBuilder = categoryDao.queryBuilder();
+        queryBuilder.where(CategoryDao.Properties.Type.eq(0));
         return queryBuilder.list();
     }
 

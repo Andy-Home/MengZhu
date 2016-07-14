@@ -27,6 +27,11 @@ public class StatisticsPresenterImpl implements StatisticsPresenter, OnDataReque
     }
 
     @Override
+    public void getPayCategory(int flag, int requestCode) {
+        statisticsModel.getPayCategory(flag, this, requestCode);
+    }
+
+    @Override
     public void getBalanceOfPayments(int flag, int requestCode) {
         statisticsModel.getBalanceOfPayments(flag, this, requestCode);
     }

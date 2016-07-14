@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
@@ -28,6 +29,11 @@ public class SwitchAndy extends View {
      * 选择周时的状态值
      */
     public static final int SWITCH_WEEK = 1;
+
+    /**
+     * 圆心
+     */
+    private Point point = null;
 
     /**
      * 当前的收支为正时的背景色
@@ -87,13 +93,13 @@ public class SwitchAndy extends View {
         super.onDraw(canvas);
 
         Paint paint = new Paint();  //实例化画笔
-        int centre = getWidth() / 2; //获取圆心的x坐标
+        point = new Point(getWidth() / 2, getHeight() / 2);
 
         double displayNum;
 
-        if(flag == SWITCH_WEEK){
+        if (flag == SWITCH_WEEK) {
             displayNum = displayWeekNum;
-        }else{
+        } else {
             displayNum = displayMonthNum;
         }
 
@@ -104,28 +110,28 @@ public class SwitchAndy extends View {
         }
         paint.setStyle(Paint.Style.FILL); //设置实心
         paint.setAntiAlias(true);  //消除锯齿
-        canvas.drawCircle(centre, centre, radius, paint); //画出圆
+        canvas.drawCircle(point.x, point.y, radius, paint); //画出圆
 
         paint.setStrokeWidth(0);
         paint.setColor(numColor);
         paint.setTextSize(textSize);
-        float textWidth = paint.measureText(displayNum+"");
-        if(textWidth > radius){
-            float newSize = textSize - (textWidth/2 - radius)/2;
+        float textWidth = paint.measureText(displayNum + "");
+        if (textWidth > radius) {
+            float newSize = textSize - (textWidth / 2 - radius) / 2;
             paint.setTextSize(newSize);
-            textWidth = paint.measureText(displayNum+"");
-            canvas.drawText("" + displayNum, centre - textWidth / 2, centre + newSize/2, paint);
-        }else{
-            canvas.drawText("" + displayNum, centre - textWidth / 2, centre + textSize/2, paint);
+            textWidth = paint.measureText(displayNum + "");
+            canvas.drawText("" + displayNum, point.x - textWidth / 2, point.y + newSize / 2, paint);
+        } else {
+            canvas.drawText("" + displayNum, point.x - textWidth / 2, point.y + textSize / 2, paint);
         }
 
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
-                if(flag == SWITCH_WEEK){
+                if (flag == SWITCH_WEEK) {
                     flag = SWITCH_MONTH;
                 } else if (flag == SWITCH_MONTH) {
                     flag = SWITCH_WEEK;

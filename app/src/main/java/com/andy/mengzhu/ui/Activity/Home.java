@@ -201,6 +201,7 @@ public class Home extends Fragment implements View.OnClickListener, DataRequestV
                 break;
             case MONTH_CATEGORY:
                 monthDatas = (List<CategoryStatistics>) object;
+                datas.clear();
                 datas.addAll(monthDatas);
                 break;
             case WEEK_BALANCEOFPAYMENTS:

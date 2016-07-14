@@ -65,6 +65,28 @@ public class StatisticsModelImpl implements StatisticsModel {
     }
 
     @Override
+    public void getPayCategory(int flag, OnDataRequestListener listener, int requestCode) {
+        List<Category> categoryList = categoryModel.getPayCategory();
+        List<CategoryStatistics> categoryStatisticsList = new ArrayList<>();
+        for (Category category : categoryList) {
+
+            CategoryStatistics cs = new CategoryStatistics();
+            cs.setId(category.getId());
+            cs.setCategoryName(category.getCategory_name());
+            double num = 0.0;
+            if (flag == SwitchAndy.SWITCH_MONTH) {
+                num = recordModel.findMonthSumBaseCategory(category);
+            } else if (flag == SwitchAndy.SWITCH_WEEK) {
+                num = recordModel.findWeekSumBaseCategory(category);
+            }
+            cs.setCategoryNum(num);
+            cs.setType(category.getType());
+            categoryStatisticsList.add(cs);
+        }
+        listener.onSuccess(categoryStatisticsList, requestCode);
+    }
+
+    @Override
     public void getBalanceOfPayments(int flag, OnDataRequestListener listener, int requestCode) {
         BalanceOfPayments balanceOfPayments = null;
         if (flag == SwitchAndy.SWITCH_MONTH) {

@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PointerIconCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -26,6 +30,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 添加新账务按钮
      */
     private FloatingActionButton fab;
+
+    /**
+     * 导航栏
+     */
+    private Toolbar toolbar;
+
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    private DrawerLayout mDrawerLayout;
 
     /**
      * 菜单中的资金项
@@ -59,14 +72,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private List<String> mTitle = new ArrayList<>();
 
-    private static final int ADD_RECORD = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         findView();
+        setToolBar();
         setListener();
         initData();
         initializeView();
@@ -74,7 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void findView() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
 
@@ -82,22 +96,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu_category = (RelativeLayout) findViewById(R.id.menu_category);
     }
 
+    private void setToolBar() {
+        toolbar.setTitle(R.string.app_name);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
     private void setListener() {
         fab.setOnClickListener(this);
         menu_funds.setOnClickListener(this);
         menu_category.setOnClickListener(this);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        toolbar.setTitle(R.string.title_statistics);
+                        break;
+                    case 1:
+                        toolbar.setTitle(R.string.app_name);
+                        break;
+                    case 2:
+                        toolbar.setTitle(R.string.title_detail);
+                        break;
+                    default:
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void initData() {
+        mFragments.add(new Statistics());
         mFragments.add(new Home());
         mFragments.add(new RecordList());
 
+        mTitle.add("Statistics");
         mTitle.add("Home");
         mTitle.add("Detail");
     }
 
 
     private void initializeView() {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+        mDrawerToggle.syncState();
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
         //向TabLayout中添加标签
         for (String title : mTitle) {
             mTabLayout.addTab(mTabLayout.newTab().setText(title));
@@ -107,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTabPageAdapter = new TabPageAdapter(getSupportFragmentManager(), mFragments, mTitle);
         mViewPager.setAdapter(mTabPageAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mViewPager.setCurrentItem(1);
     }
 
     @Override

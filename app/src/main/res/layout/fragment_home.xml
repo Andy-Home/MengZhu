@@ -5,10 +5,10 @@
 
     <com.andy.mengzhu.ui.component.SwitchAndy
         android:id="@+id/balance"
-        android:layout_width="148dp"
-        android:layout_height="148dp"
+        android:layout_width="136dp"
+        android:layout_height="136dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="18dp"
         android:gravity="center"
         android:textColor="@color/white"/>
 
@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@id/balance"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="18dp"
         android:src="@drawable/line_gray" />
 
     <!-- 类目列表 -->

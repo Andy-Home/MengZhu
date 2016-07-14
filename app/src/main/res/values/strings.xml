@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">萌猪</string>
+    <string name="title_statistics">统计</string>
+    <string name="title_detail">账务详情</string>
     <string name="action_settings">Settings</string>
     <string name="current_month_income">本月收入</string>
     <string name="current_month_pay">本月支出</string>

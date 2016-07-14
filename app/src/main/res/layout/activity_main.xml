@@ -5,33 +5,46 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- 侧滑布局 -->
-    <android.support.v4.widget.DrawerLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- ViewPager布局，用来切换多个布局 -->
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/golden" />
+
+        <!-- 侧滑布局 -->
+        <android.support.v4.widget.DrawerLayout
+            android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- 导航栏标签-->
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
+            <!-- ViewPager布局，用来切换多个布局 -->
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
+                android:layout_height="match_parent">
 
-        </android.support.v4.view.ViewPager>
+                <!-- 导航栏标签-->
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom" />
 
-        <include
-            layout="@layout/menu_main"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start" />
-    </android.support.v4.widget.DrawerLayout>
+            </android.support.v4.view.ViewPager>
 
+            <include
+                layout="@layout/menu_main"
+                android:layout_width="186dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start" />
+
+        </android.support.v4.widget.DrawerLayout>
+    </LinearLayout>
     <!-- 添加账务按钮 -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
