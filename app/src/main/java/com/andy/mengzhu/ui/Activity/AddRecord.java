@@ -1,16 +1,14 @@
-package com.andy.mengzhu.ui.Activity;
+package com.andy.mengzhu.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -34,7 +32,6 @@ import com.andy.mengzhu.ui.view.DividerItemDecoration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -104,6 +101,11 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
     private Button save_record;
 
     /**
+     * 收借款人布局，只有当收借款时才显示
+     */
+    private RelativeLayout person_layout;
+
+    /**
      * Presenter 层
      */
     private RecordPresenter mRecordPresenter;
@@ -153,6 +155,8 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         numView = (EditText) findViewById(R.id.finance_num);
         descView = (EditText) findViewById(R.id.finance_desc);
         save_record = (Button) findViewById(R.id.save);
+
+        person_layout = (RelativeLayout) findViewById(R.id.finance_person_layout);
     }
 
     private void initData() {
@@ -173,6 +177,13 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
                 record_category.setText(categoryList.get(i).getCategory_name());
                 categoryID = categoryList.get(i).getId();
                 type = categoryList.get(i).getType();
+                if (type == 2) {
+                    person_layout.setVisibility(View.VISIBLE);
+                } else {
+                    if (person_layout.getVisibility() == View.VISIBLE) {
+                        person_layout.setVisibility(View.GONE);
+                    }
+                }
             }
 
             @Override

@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.andy.mengzhu.model.entity.CategoryStatistics;
-import com.andy.mengzhu.ui.Activity.Statistics;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;

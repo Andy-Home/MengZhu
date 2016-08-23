@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <activity android:name=".ui.Activity.MainActivity">
+        <activity android:name=".ui.activity.Start">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,22 +22,27 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.activity.MainActivity" />
+
         <activity android:name=".ui.common.BaseActivity" />
         <!-- 记账界面 -->
         <activity
-            android:name=".ui.Activity.AddRecord"
+            android:name=".ui.activity.AddRecord"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 账务编辑界面 -->
         <activity
-            android:name=".ui.Activity.EditRecord"
+            android:name=".ui.activity.EditRecord"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 资金项列表页面 -->
-        <activity android:name=".ui.Activity.FundsList" />
+        <activity android:name=".ui.activity.FundsList" />
 
         <!-- 类别项列表页面 -->
-        <activity android:name=".ui.Activity.CategoryList" />
+        <activity android:name=".ui.activity.CategoryList" />
+
+        <!-- 借/还款人页面-->
+        <activity android:name=".ui.activity.PersonList" />
     </application>
 
 </manifest>

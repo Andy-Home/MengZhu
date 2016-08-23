@@ -1,4 +1,4 @@
-package com.andy.mengzhu.ui.Activity;
+package com.andy.mengzhu.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,15 +14,12 @@ import android.view.ViewGroup;
 
 import com.andy.greendao.Record;
 import com.andy.mengzhu.R;
-import com.andy.mengzhu.presenter.OnDataRequestListener;
-import com.andy.mengzhu.presenter.RecordPresenter;
 import com.andy.mengzhu.presenter.impl.RecordPresenterImpl;
 import com.andy.mengzhu.ui.adapter.RecordAdapter;
 import com.andy.mengzhu.ui.view.DataRequestView;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
 import com.andy.mengzhu.ui.view.ItemTouchCallback;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**

@@ -32,11 +32,6 @@ public class AndyApplication extends Application{
      */
     private DaoSession daoSession;
 
-    /**
-     * 判断用户是否是安装APP后第一次使用
-     */
-    private boolean isFirstUse;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -51,7 +46,7 @@ public class AndyApplication extends Application{
     private void isFirstUse() {
         SharedPreferences preferences = getSharedPreferences("first",
                 MODE_PRIVATE);
-        isFirstUse = preferences.getBoolean("isFirstUse", true);
+        boolean isFirstUse = preferences.getBoolean("isFirstUse", true);
         if (isFirstUse) {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("isFirstUse", false);
@@ -96,10 +91,10 @@ public class AndyApplication extends Application{
         //资金项
         FundsDao mFundsDao = daoSession.getFundsDao();
         String[] fundsName = {"银行卡", "零钱"};
-        FundsPresenter mFundsPresenter = null;
         for (int i = 0; i < fundsName.length; i++) {
             Funds mFunds = new Funds();
             mFunds.setFunds_name(fundsName[i]);
+            mFunds.setNum(0.0);
             mFundsDao.insert(mFunds);
         }
     }

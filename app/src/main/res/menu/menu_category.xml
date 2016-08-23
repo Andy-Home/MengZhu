@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.Activity.CategoryList">
+    tools:context=".ui.activity.CategoryList">
 
     <item
         android:id="@+id/add_category"

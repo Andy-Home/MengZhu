@@ -60,4 +60,23 @@
         android:layout_below="@id/balance"
         android:src="@drawable/line_gray" />
 
+    <RelativeLayout
+        android:id="@+id/menu_person"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:text="@string/menu_person"
+            android:gravity="center"
+            android:textSize="@dimen/add_record_text_size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <!-- 分隔线 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/balance"
+        android:src="@drawable/line_gray" />
 </LinearLayout>

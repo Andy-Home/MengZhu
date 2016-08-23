@@ -33,6 +33,13 @@ public class GreenDao {
         Entity funds = schema.addEntity("Funds");
         funds.addIdProperty();
         funds.addStringProperty("funds_name");
+        funds.addDoubleProperty("num");
+
+        //收借款人表
+        Entity person = schema.addEntity("Person");
+        person.addIdProperty();
+        person.addStringProperty("person_name");
+        person.addDoubleProperty("num");
 
         new DaoGenerator().generateAll(schema, "../MengZhu/app/src/main/java-gen");
     }

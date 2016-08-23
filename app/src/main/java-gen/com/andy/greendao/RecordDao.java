@@ -103,7 +103,7 @@ public class RecordDao extends AbstractDao<Record, Long> {
         if (category_name != null) {
             stmt.bindString(6, category_name);
         }
-
+ 
         Long funds_id = entity.getFunds_id();
         if (funds_id != null) {
             stmt.bindLong(7, funds_id);
@@ -113,7 +113,7 @@ public class RecordDao extends AbstractDao<Record, Long> {
         if (funds_name != null) {
             stmt.bindString(8, funds_name);
         }
-
+ 
         Integer type = entity.getType();
         if (type != null) {
             stmt.bindLong(9, type);

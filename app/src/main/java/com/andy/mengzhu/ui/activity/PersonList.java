@@ -18,11 +18,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.andy.greendao.Category;
+import com.andy.greendao.Funds;
+import com.andy.greendao.Person;
 import com.andy.mengzhu.R;
-import com.andy.mengzhu.presenter.CategoryPresenter;
-import com.andy.mengzhu.presenter.impl.CategoryPresenterImpl;
-import com.andy.mengzhu.ui.adapter.ListAdapter;
+import com.andy.mengzhu.presenter.PersonPresenter;
+import com.andy.mengzhu.presenter.impl.PersonPresenterImpl;
+import com.andy.mengzhu.ui.adapter.PersonAdapter;
 import com.andy.mengzhu.ui.view.DataRequestView;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
 import com.andy.mengzhu.ui.view.ItemTouchCallback;
@@ -31,28 +32,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/7/6 0006.
+ * Created by Administrator on 2016/8/23 0023.
  */
-public class CategoryList extends AppCompatActivity implements DataRequestView, Toolbar.OnMenuItemClickListener, View.OnClickListener {
+public class PersonList extends AppCompatActivity implements DataRequestView, Toolbar.OnMenuItemClickListener, View.OnClickListener {
     /**
      * 导航栏
      */
     private Toolbar mToolbar;
 
     /**
-     * 用户选择收入或者支出项之后弹出该对话框，供用户填写新的类别项
+     * 点击添加之后弹出该对话框，供用户填写新的资金项
      */
     private AlertDialog mAlertDialog;
 
     /**
-     * 用户点击添加之后，弹出该对话框，由用户选择支出项与收入项
+     * 新建的资金项的名字
      */
-    private AlertDialog chooseDialog;
-
-    /**
-     * 新建的类别项的名字
-     */
-    private EditText categoryName;
+    private EditText personName;
 
     /**
      * 对话框中的取消按钮
@@ -65,39 +61,24 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     private Button determine;
 
     /**
-     * 对话框中的收入项按钮
+     * 收/还款人列表
      */
-    private TextView income;
+    private RecyclerView person_list;
 
     /**
-     * 对话框中的支出项按钮
+     * person_list 的适配器
      */
-    private TextView pay;
+    private PersonAdapter mListAdapter = null;
 
     /**
-     * 类别项列表
+     * 需要显示的 Person 类型的数据
      */
-    private RecyclerView category_list;
-
-    /**
-     * category_list 的适配器
-     */
-    private ListAdapter mListAdapter = null;
-
-    /**
-     * 需要显示的 Category 类型的数据
-     */
-    private List<Category> categories = new ArrayList<>();
+    private List<Person> person = new ArrayList<>();
 
     /**
      * Presenter 层
      */
-    private CategoryPresenter categoryPresenter = null;
-
-    /**
-     * 新建的Category类型的数据类型，0为支出、1为收入、2为收借款、3为转账
-     */
-    private int type = 0;
+    private PersonPresenter mPersonPresenter = null;
 
     /**
      * 判断是否是添加模式
@@ -110,19 +91,18 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     private int position = 0;
 
     /**
-     * 获取Category类型数据请求的标志
+     * 获取Person类型数据请求的标志
      */
-    private static final int GET_CATEGORY = 1;
+    private static final int GET_PERSON = 1;
+    /**
+     * 保存Person类型数据请求的标志
+     */
+    private static final int SAVE_PERSON = 2;
 
     /**
-     * 保存Category类型数据请求的标志
+     * 更新Person类型数据请求的标志
      */
-    private static final int SAVE_CATEGORY = 2;
-
-    /**
-     * 更新Category类型数据请求的标志
-     */
-    private static final int UPDATE_CATEGORY = 3;
+    private static final int UPDATE_PERSON = 3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,43 +117,42 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
 
     private void setListener() {
         mToolbar.setOnMenuItemClickListener(this);
-        mListAdapter.setOnItemClickListener(new ListAdapter.OnRecyclerViewItemClickListener() {
+        mListAdapter.setOnItemClickListener(new PersonAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
                 modifyCategoryDialog(position);
             }
         });
     }
 
     private void findView() {
-        category_list = (RecyclerView) findViewById(R.id.list);
+        person_list = (RecyclerView) findViewById(R.id.list);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
     private void setToolBar() {
-        mToolbar.setTitle(R.string.menu_category);
+        mToolbar.setTitle(R.string.menu_person);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void initData() {
-        categoryPresenter = new CategoryPresenterImpl(this, this);
-        categoryPresenter.getCategory(GET_CATEGORY);
+        mPersonPresenter = new PersonPresenterImpl(this, this);
+        mPersonPresenter.getPerson(GET_PERSON);
     }
 
     private void initializeView() {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        category_list.setLayoutManager(mLayoutManager);
-        category_list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        category_list.setHasFixedSize(true);
-        mListAdapter = new ListAdapter(categories, categoryPresenter);
-        category_list.setAdapter(mListAdapter);
+        person_list.setLayoutManager(mLayoutManager);
+        person_list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        person_list.setHasFixedSize(true);
+        mListAdapter = new PersonAdapter(person, mPersonPresenter);
+        person_list.setAdapter(mListAdapter);
 
         ItemTouchHelper.Callback callback = new ItemTouchCallback(mListAdapter);
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(category_list);
+        mItemTouchHelper.attachToRecyclerView(person_list);
     }
 
     @Override
@@ -184,18 +163,20 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     @Override
     public void setView(Object object, int requestCode) {
         switch (requestCode) {
-            case GET_CATEGORY:
-                categories.addAll((List<Category>) object);
+            case GET_PERSON:
+                person.addAll((List<Person>) object);
                 initializeView();
                 break;
-            case SAVE_CATEGORY:
-                categories.clear();
-                categories.addAll((List<Category>) object);
+
+            case SAVE_PERSON:
+                person.clear();
+                person.addAll((List<Person>) object);
                 mListAdapter.notifyDataSetChanged();
                 break;
-            case UPDATE_CATEGORY:
-                categories.clear();
-                categories.addAll((List<Category>) object);
+
+            case UPDATE_PERSON:
+                person.clear();
+                person.addAll((List<Person>) object);
                 mListAdapter.notifyDataSetChanged();
                 break;
         }
@@ -203,7 +184,7 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_category, menu);
+        getMenuInflater().inflate(R.menu.menu_funds, menu);
         return true;
     }
 
@@ -220,8 +201,8 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.add_category:
-                setChooseDialog();
+            case R.id.add_funds:
+                setFundsDialog();
                 break;
         }
         return true;
@@ -240,8 +221,8 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
         window.setGravity(Gravity.CENTER);
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         TextView tv_title = (TextView) window.findViewById(R.id.title);
-        tv_title.setText(R.string.modify_category_title);
-        categoryName = (EditText) window.findViewById(R.id.name);
+        tv_title.setText(R.string.modify_funds_title);
+        personName = (EditText) window.findViewById(R.id.name);
         cancel = (Button) window.findViewById(R.id.cancel);
         determine = (Button) window.findViewById(R.id.determine);
         cancel.setOnClickListener(this);
@@ -249,9 +230,9 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     }
 
     /**
-     * 自定对话框. 用户添加新的类别项，显示自定义的对话框
+     * 自定对话框. 用户添加新的资金项，显示自定义的对话框
      */
-    private void setCategoryDialog() {
+    private void setFundsDialog() {
         isAdd = true;
         mAlertDialog = new AlertDialog.Builder(this).create();
         mAlertDialog.show();
@@ -260,25 +241,12 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
         window.setGravity(Gravity.CENTER);
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         TextView tv_title = (TextView) window.findViewById(R.id.title);
-        tv_title.setText(R.string.add_category_title);
-        categoryName = (EditText) window.findViewById(R.id.name);
+        tv_title.setText(R.string.add_funds_title);
+        personName = (EditText) window.findViewById(R.id.name);
         cancel = (Button) window.findViewById(R.id.cancel);
         determine = (Button) window.findViewById(R.id.determine);
         cancel.setOnClickListener(this);
         determine.setOnClickListener(this);
-    }
-
-    private void setChooseDialog() {
-        chooseDialog = new AlertDialog.Builder(this).create();
-        chooseDialog.show();
-        Window window = chooseDialog.getWindow();
-        window.setContentView(R.layout.dialog_is_pay);
-        window.setGravity(Gravity.CENTER);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        income = (TextView) window.findViewById(R.id.income);
-        pay = (TextView) window.findViewById(R.id.pay);
-        income.setOnClickListener(this);
-        pay.setOnClickListener(this);
     }
 
     @Override
@@ -289,30 +257,16 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
                 break;
 
             case R.id.determine:
-                Category category = new Category();
+                Person mPerson = new Person();
                 if (isAdd) {
-                    category.setCategory_name(categoryName.getText().toString());
-                    category.setType(type);
-                    categoryPresenter.savaCategory(category, SAVE_CATEGORY);
+                    mPerson.setPerson_name(personName.getText().toString());
+                    mPersonPresenter.savaPerson(mPerson, SAVE_PERSON);
                 } else {
-                    category = categories.get(position);
-                    category.setCategory_name(categoryName.getText().toString());
-                    categoryPresenter.updateCategory(category, UPDATE_CATEGORY);
+                    mPerson = person.get(position);
+                    mPerson.setPerson_name(personName.getText().toString());
+                    mPersonPresenter.updatePerson(mPerson, UPDATE_PERSON);
                 }
-
                 mAlertDialog.cancel();
-                break;
-
-            case R.id.pay:
-                type = 0;
-                chooseDialog.cancel();
-                setCategoryDialog();
-                break;
-
-            case R.id.income:
-                type = 1;
-                chooseDialog.cancel();
-                setCategoryDialog();
                 break;
         }
     }

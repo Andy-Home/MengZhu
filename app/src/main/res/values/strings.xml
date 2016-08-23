@@ -21,6 +21,7 @@
     <string name="save">保存</string>
     <string name="menu_funds">资金项</string>
     <string name="menu_category">类别项</string>
+    <string name="menu_person">借/收款人</string>
     <string name="add_funds">添加资金项</string>
     <string name="add_funds_title">请输入新的资金项</string>
     <string name="modify_funds_title">请输入修改的资金项</string>
@@ -31,4 +32,6 @@
     <string name="determine">确定</string>
     <string name="income">收入项</string>
     <string name="pay">支出项</string>
+    <string name="repayment_person">还款人</string>
+    <string name="borrower">借款人</string>
 </resources>

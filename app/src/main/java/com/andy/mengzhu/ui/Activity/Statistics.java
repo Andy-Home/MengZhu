@@ -1,4 +1,4 @@
-package com.andy.mengzhu.ui.Activity;
+package com.andy.mengzhu.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

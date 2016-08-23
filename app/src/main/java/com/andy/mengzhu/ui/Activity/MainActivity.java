@@ -1,11 +1,10 @@
-package com.andy.mengzhu.ui.Activity;
+package com.andy.mengzhu.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PointerIconCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -51,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout menu_category;
 
     /**
+     * 菜单中的借/还款人
+     */
+    private RelativeLayout menu_person;
+
+    /**
      * 标签布局
      */
     private TabLayout mTabLayout;
@@ -94,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         menu_funds = (RelativeLayout) findViewById(R.id.menu_funds);
         menu_category = (RelativeLayout) findViewById(R.id.menu_category);
+        menu_person = (RelativeLayout) findViewById(R.id.menu_person);
     }
 
     private void setToolBar() {
@@ -107,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);
         menu_funds.setOnClickListener(this);
         menu_category.setOnClickListener(this);
+        menu_person.setOnClickListener(this);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -191,6 +197,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.menu_category:
                 Intent intent2 = new Intent(this, CategoryList.class);
                 startActivity(intent2);
+                break;
+
+            case R.id.menu_person:
+                Intent intent3 = new Intent(this, PersonList.class);
+                startActivity(intent3);
                 break;
         }
     }
