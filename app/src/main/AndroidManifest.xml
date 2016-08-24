@@ -45,7 +45,7 @@
         <activity android:name=".ui.activity.PersonList" />
 
         <!-- 关于界面 -->
-        <activity android:name=".ui.activity.About"/>
+        <activity android:name=".ui.activity.About" />
     </application>
 
 </manifest>
