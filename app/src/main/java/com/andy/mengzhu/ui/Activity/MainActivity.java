@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.andy.mengzhu.R;
 import com.andy.mengzhu.ui.adapter.TabPageAdapter;
+import com.andy.mengzhu.ui.common.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * Created by Administrator on 2016/7/5 0005.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     /**
      * 添加新账务按钮
      */
@@ -53,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 菜单中的借/还款人
      */
     private RelativeLayout menu_person;
+
+    /**
+     * 菜单中的 关于
+     */
+    private RelativeLayout menu_about;
 
     /**
      * 标签布局
@@ -99,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu_funds = (RelativeLayout) findViewById(R.id.menu_funds);
         menu_category = (RelativeLayout) findViewById(R.id.menu_category);
         menu_person = (RelativeLayout) findViewById(R.id.menu_person);
+        menu_about = (RelativeLayout) findViewById(R.id.menu_about);
     }
 
     private void setToolBar() {
@@ -113,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu_funds.setOnClickListener(this);
         menu_category.setOnClickListener(this);
         menu_person.setOnClickListener(this);
+        menu_about.setOnClickListener(this);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -202,6 +210,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.menu_person:
                 Intent intent3 = new Intent(this, PersonList.class);
                 startActivity(intent3);
+                break;
+
+            case R.id.menu_about:
+                Intent intent4 = new Intent(this, About.class);
+                startActivity(intent4);
                 break;
         }
     }
