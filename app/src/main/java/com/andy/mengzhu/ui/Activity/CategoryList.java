@@ -22,7 +22,7 @@ import com.andy.greendao.Category;
 import com.andy.mengzhu.R;
 import com.andy.mengzhu.presenter.CategoryPresenter;
 import com.andy.mengzhu.presenter.impl.CategoryPresenterImpl;
-import com.andy.mengzhu.ui.adapter.ListAdapter;
+import com.andy.mengzhu.ui.adapter.CategoryAdapter;
 import com.andy.mengzhu.ui.view.DataRequestView;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
 import com.andy.mengzhu.ui.view.ItemTouchCallback;
@@ -82,7 +82,7 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
     /**
      * category_list 的适配器
      */
-    private ListAdapter mListAdapter = null;
+    private CategoryAdapter mListAdapter = null;
 
     /**
      * 需要显示的 Category 类型的数据
@@ -137,7 +137,7 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
 
     private void setListener() {
         mToolbar.setOnMenuItemClickListener(this);
-        mListAdapter.setOnItemClickListener(new ListAdapter.OnRecyclerViewItemClickListener() {
+        mListAdapter.setOnItemClickListener(new CategoryAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 
@@ -168,7 +168,7 @@ public class CategoryList extends AppCompatActivity implements DataRequestView, 
         category_list.setLayoutManager(mLayoutManager);
         category_list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         category_list.setHasFixedSize(true);
-        mListAdapter = new ListAdapter(categories, categoryPresenter);
+        mListAdapter = new CategoryAdapter(categories, categoryPresenter);
         category_list.setAdapter(mListAdapter);
 
         ItemTouchHelper.Callback callback = new ItemTouchCallback(mListAdapter);

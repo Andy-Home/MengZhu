@@ -6,55 +6,96 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.andy.greendao.Category;
 import com.andy.mengzhu.R;
-import com.andy.mengzhu.model.entity.CategoryStatistics;
+import com.andy.mengzhu.presenter.CategoryPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Home 类中类别显示的适配器
- *
- * Created by Administrator on 2016/6/29 0029.
+ * 类目列表的适配器
+ * <p/>
+ * Created by Administrator on 2016/7/6 0006.
  */
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> implements View.OnClickListener {
+    /**
+     * 保存类别项的数据
+     */
+    private List<Category> categories = new ArrayList<>();
 
     /**
-     * Category 类型的数据，用来在 ListView 中显示
+     * Presenter 层
      */
-    private List<CategoryStatistics> datas = new ArrayList<>();
+    private CategoryPresenter mCategoryPresenter = null;
 
-    public CategoryAdapter(List<CategoryStatistics> datas) {
-        this.datas = datas;
+    /**
+     * 使用
+     */
+    private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
+
+    /**
+     * 点击事件监听器
+     */
+    public interface OnRecyclerViewItemClickListener {
+        /**
+         * 点击事件的回调接口
+         *
+         * @param view
+         * @param position
+         */
+        void onItemClick(View view, int position);
     }
+
+
+    public CategoryAdapter(List<Category> categories, CategoryPresenter mCategoryPresenter) {
+        this.categories = categories;
+        this.mCategoryPresenter = mCategoryPresenter;
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_category, parent, false);
-        ViewHolder vh = new ViewHolder(view);
-        return vh;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(this);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.categoryName.setText(datas.get(position).getCategoryName());
-        holder.categoryPay.setText("" + datas.get(position).getCategoryNum());
+        holder.name.setText(categories.get(position).getCategory_name());
+        holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        return datas.isEmpty() ? 0 : datas.size();
+        return categories.isEmpty() ? 0 : categories.size();
     }
 
+    @Override
+    public void onClick(View view) {
+        if (onRecyclerViewItemClickListener != null) {
+            onRecyclerViewItemClickListener.onItemClick(view, (int) view.getTag());
+        }
+    }
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView categoryName;   //类目名
-        public TextView categoryPay;    //类目金额
+        public TextView name;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            categoryName = (TextView) itemView.findViewById(R.id.category_name);
-            categoryPay = (TextView) itemView.findViewById(R.id.category_pay);
+            name = (TextView) itemView.findViewById(R.id.name);
         }
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.onRecyclerViewItemClickListener = listener;
+    }
+
+    public void removeData(int position) {
+        mCategoryPresenter.deleteCategory(categories.get(position));
+        categories.remove(position);
+        notifyItemRemoved(position);
     }
 }

@@ -22,7 +22,7 @@ import com.andy.greendao.Funds;
 import com.andy.mengzhu.R;
 import com.andy.mengzhu.presenter.FundsPresenter;
 import com.andy.mengzhu.presenter.impl.FundsPresenterImpl;
-import com.andy.mengzhu.ui.adapter.ListAdapter;
+import com.andy.mengzhu.ui.adapter.FundsAdapter;
 import com.andy.mengzhu.ui.view.DataRequestView;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
 import com.andy.mengzhu.ui.view.ItemTouchCallback;
@@ -63,6 +63,11 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
     private Button determine;
 
     /**
+     * 对话框中的标题
+     */
+    private TextView tv_title;
+
+    /**
      * 资金项列表
      */
     private RecyclerView funds_list;
@@ -70,7 +75,7 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
     /**
      * funds_list 的适配器
      */
-    private ListAdapter mListAdapter = null;
+    private FundsAdapter mListAdapter = null;
 
     /**
      * 需要显示的 Funds 类型的数据
@@ -86,6 +91,16 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
      * 判断是否是添加模式
      */
     private boolean isAdd = false;
+
+    /**
+     * true是添加模式中的添加名字/false是添加金额
+     */
+    private boolean isAddName = true;
+
+    /**
+     * 添加模式中的资金项的名字
+     */
+    private String name;
 
     /**
      * 用户在列表中的点击位置
@@ -119,10 +134,10 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
 
     private void setListener() {
         mToolbar.setOnMenuItemClickListener(this);
-        mListAdapter.setOnItemClickListener(new ListAdapter.OnRecyclerViewItemClickListener() {
+        mListAdapter.setOnItemClickListener(new FundsAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                modifyCategoryDialog(position);
+                modifyFundsDialog(position);
             }
         });
     }
@@ -149,7 +164,7 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
         funds_list.setLayoutManager(mLayoutManager);
         funds_list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         funds_list.setHasFixedSize(true);
-        mListAdapter = new ListAdapter(funds, mFundsPresenter);
+        mListAdapter = new FundsAdapter(funds, mFundsPresenter);
         funds_list.setAdapter(mListAdapter);
 
         ItemTouchHelper.Callback callback = new ItemTouchCallback(mListAdapter);
@@ -213,7 +228,7 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
     /**
      * 用户修改类别项
      */
-    private void modifyCategoryDialog(int position) {
+    private void modifyFundsDialog(int position) {
         isAdd = false;
         this.position = position;
         mAlertDialog = new AlertDialog.Builder(this).create();
@@ -235,20 +250,27 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
      * 自定对话框. 用户添加新的资金项，显示自定义的对话框
      */
     private void setFundsDialog() {
+
         isAdd = true;
+        isAddName = true;
         mAlertDialog = new AlertDialog.Builder(this).create();
         mAlertDialog.show();
         Window window = mAlertDialog.getWindow();
         window.setContentView(R.layout.dialog_add);
         window.setGravity(Gravity.CENTER);
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        TextView tv_title = (TextView) window.findViewById(R.id.title);
+        tv_title = (TextView) window.findViewById(R.id.title);
         tv_title.setText(R.string.add_funds_title);
         fundsName = (EditText) window.findViewById(R.id.name);
         cancel = (Button) window.findViewById(R.id.cancel);
         determine = (Button) window.findViewById(R.id.determine);
         cancel.setOnClickListener(this);
         determine.setOnClickListener(this);
+    }
+
+    private void setFundsMoneyDialog() {
+        isAddName = false;
+        tv_title.setText(R.string.add_funds_money);
     }
 
     @Override
@@ -261,14 +283,23 @@ public class FundsList extends AppCompatActivity implements DataRequestView, Too
             case R.id.determine:
                 Funds mFunds = new Funds();
                 if (isAdd) {
-                    mFunds.setFunds_name(fundsName.getText().toString());
-                    mFundsPresenter.savaFunds(mFunds, SAVE_FUNDS);
+                    if (isAddName) {
+                        name = fundsName.getText().toString();
+                        fundsName.setText("");
+                        setFundsMoneyDialog();
+                    } else {
+                        mFunds.setFunds_name(name);
+                        String num = fundsName.getText().toString();
+                        mFunds.setNum(Double.valueOf(num));
+                        mFundsPresenter.savaFunds(mFunds, SAVE_FUNDS);
+                        mAlertDialog.cancel();
+                    }
                 } else {
                     mFunds = funds.get(position);
                     mFunds.setFunds_name(fundsName.getText().toString());
                     mFundsPresenter.updateFunds(mFunds, UPDATE_FUNDS);
+                    mAlertDialog.cancel();
                 }
-                mAlertDialog.cancel();
                 break;
         }
     }

@@ -6,11 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.andy.greendao.Category;
 import com.andy.greendao.Person;
 import com.andy.mengzhu.R;
-import com.andy.mengzhu.presenter.CategoryPresenter;
-import com.andy.mengzhu.presenter.FundsPresenter;
 import com.andy.mengzhu.presenter.PersonPresenter;
 
 import java.util.List;

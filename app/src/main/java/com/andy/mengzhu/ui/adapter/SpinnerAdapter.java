@@ -10,8 +10,10 @@ import android.widget.TextView;
 import com.andy.greendao.Category;
 import com.andy.greendao.CategoryDao;
 import com.andy.greendao.Funds;
+import com.andy.greendao.Person;
 import com.andy.mengzhu.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,19 +21,9 @@ import java.util.List;
  */
 public class SpinnerAdapter extends BaseAdapter {
     /**
-     * 数据是否是Funds类型
+     * 保存需要显示的数据
      */
-    private boolean isFunds = true;
-
-    /**
-     * 需要显示的 Category 类型数据
-     */
-    private List<Category> categoryList = null;
-
-    /**
-     * 需要显示的 Funds 类型数据
-     */
-    private List<Funds> fundsList = null;
+    private List<Object> objectList = null;
 
     private Context context;
 
@@ -39,37 +31,22 @@ public class SpinnerAdapter extends BaseAdapter {
      * 构造函数
      *
      * @param context
-     * @param categoryList
-     * @param isFunds      没有作用，可以为null
+     * @param object
      */
-    public SpinnerAdapter(Context context, List<Category> categoryList, boolean isFunds) {
+    public SpinnerAdapter(Context context, Object object) {
         this.context = context;
-        this.categoryList = categoryList;
-        this.isFunds = false;
+        objectList = (List<Object>) object;
     }
 
-    public SpinnerAdapter(Context context, List<Funds> fundsList) {
-        this.context = context;
-        this.fundsList = fundsList;
-        this.isFunds = true;
-    }
 
     @Override
     public int getCount() {
-        if (isFunds) {
-            return fundsList.isEmpty() ? 0 : fundsList.size();
-        } else {
-            return categoryList.isEmpty() ? 0 : categoryList.size();
-        }
+        return objectList.isEmpty() ? 0 : objectList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        if (isFunds) {
-            return fundsList.get(i);
-        } else {
-            return categoryList.get(i);
-        }
+        return objectList.get(i);
     }
 
     @Override
@@ -88,10 +65,12 @@ public class SpinnerAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        if (isFunds) {
-            viewHolder.name.setText(fundsList.get(i).getFunds_name());
-        } else {
-            viewHolder.name.setText(categoryList.get(i).getCategory_name());
+        if (objectList.get(0) instanceof Category) {
+            viewHolder.name.setText(((Category) objectList.get(i)).getCategory_name());
+        } else if (objectList.get(0) instanceof Funds) {
+            viewHolder.name.setText(((Funds) objectList.get(i)).getFunds_name());
+        } else if (objectList.get(0) instanceof Person) {
+            viewHolder.name.setText(((Person) objectList.get(i)).getPerson_name());
         }
         return view;
     }

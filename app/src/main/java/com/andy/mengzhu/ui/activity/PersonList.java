@@ -120,7 +120,7 @@ public class PersonList extends AppCompatActivity implements DataRequestView, To
         mListAdapter.setOnItemClickListener(new PersonAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                modifyCategoryDialog(position);
+                modifyPersonDialog(position);
             }
         });
     }
@@ -184,7 +184,7 @@ public class PersonList extends AppCompatActivity implements DataRequestView, To
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_funds, menu);
+        getMenuInflater().inflate(R.menu.menu_person, menu);
         return true;
     }
 
@@ -201,8 +201,8 @@ public class PersonList extends AppCompatActivity implements DataRequestView, To
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.add_funds:
-                setFundsDialog();
+            case R.id.add_person:
+                setPersonDialog();
                 break;
         }
         return true;
@@ -211,7 +211,7 @@ public class PersonList extends AppCompatActivity implements DataRequestView, To
     /**
      * 用户修改类别项
      */
-    private void modifyCategoryDialog(int position) {
+    private void modifyPersonDialog(int position) {
         isAdd = false;
         this.position = position;
         mAlertDialog = new AlertDialog.Builder(this).create();
@@ -221,7 +221,7 @@ public class PersonList extends AppCompatActivity implements DataRequestView, To
         window.setGravity(Gravity.CENTER);
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         TextView tv_title = (TextView) window.findViewById(R.id.title);
-        tv_title.setText(R.string.modify_funds_title);
+        tv_title.setText(R.string.modify_person_title);
         personName = (EditText) window.findViewById(R.id.name);
         cancel = (Button) window.findViewById(R.id.cancel);
         determine = (Button) window.findViewById(R.id.determine);
@@ -232,7 +232,7 @@ public class PersonList extends AppCompatActivity implements DataRequestView, To
     /**
      * 自定对话框. 用户添加新的资金项，显示自定义的对话框
      */
-    private void setFundsDialog() {
+    private void setPersonDialog() {
         isAdd = true;
         mAlertDialog = new AlertDialog.Builder(this).create();
         mAlertDialog.show();
@@ -241,7 +241,7 @@ public class PersonList extends AppCompatActivity implements DataRequestView, To
         window.setGravity(Gravity.CENTER);
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         TextView tv_title = (TextView) window.findViewById(R.id.title);
-        tv_title.setText(R.string.add_funds_title);
+        tv_title.setText(R.string.add_person_title);
         personName = (EditText) window.findViewById(R.id.name);
         cancel = (Button) window.findViewById(R.id.cancel);
         determine = (Button) window.findViewById(R.id.determine);
@@ -260,6 +260,7 @@ public class PersonList extends AppCompatActivity implements DataRequestView, To
                 Person mPerson = new Person();
                 if (isAdd) {
                     mPerson.setPerson_name(personName.getText().toString());
+                    mPerson.setNum(0.0);
                     mPersonPresenter.savaPerson(mPerson, SAVE_PERSON);
                 } else {
                     mPerson = person.get(position);

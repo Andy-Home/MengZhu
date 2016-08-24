@@ -14,14 +14,17 @@ import android.widget.TextView;
 
 import com.andy.greendao.Category;
 import com.andy.greendao.Funds;
+import com.andy.greendao.Person;
 import com.andy.greendao.Record;
 import com.andy.mengzhu.R;
 import com.andy.mengzhu.app.util.DateUtil;
 import com.andy.mengzhu.presenter.CategoryPresenter;
 import com.andy.mengzhu.presenter.FundsPresenter;
+import com.andy.mengzhu.presenter.PersonPresenter;
 import com.andy.mengzhu.presenter.RecordPresenter;
 import com.andy.mengzhu.presenter.impl.CategoryPresenterImpl;
 import com.andy.mengzhu.presenter.impl.FundsPresenterImpl;
+import com.andy.mengzhu.presenter.impl.PersonPresenterImpl;
 import com.andy.mengzhu.presenter.impl.RecordPresenterImpl;
 import com.andy.mengzhu.ui.adapter.DateAdapter;
 import com.andy.mengzhu.ui.adapter.SpinnerAdapter;
@@ -49,6 +52,16 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
      * 选择扣款项或者收入项
      */
     private Spinner fundsView;
+
+    /**
+     * 转账时才会显示的收入项
+     */
+    private Spinner fundsView1;
+
+    /**
+     * 还/借款时显示该视图
+     */
+    private Spinner personView;
 
     /**
      * 账务金额填写控件
@@ -105,12 +118,14 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
      */
     private RelativeLayout person_layout;
 
+    private RelativeLayout funds_layout;
     /**
      * Presenter 层
      */
     private RecordPresenter mRecordPresenter;
     private FundsPresenter mFundsPresenter;
     private CategoryPresenter mCategoryPresenter;
+    private PersonPresenter mPersonPresenter;
 
     /**
      * 保存需要显示的 Funds 类型的数据
@@ -122,6 +137,11 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
      */
     private List<Category> categoryList = null;
 
+    /**
+     * 保存需要显示的 Person 类型数据
+     */
+    private List<Person> personList = null;
+
     private Long fundsID = null;
     private Long categoryID = null;
     /**
@@ -131,6 +151,7 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
 
     private static final int GET_FUNDS = 1;
     private static final int GET_CATEGORY = 2;
+    private static final int GET_PERSON = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,22 +172,26 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
 
         categoryView = (Spinner) findViewById(R.id.finance_category);
         fundsView = (Spinner) findViewById(R.id.finance_funds);
+        fundsView1 = (Spinner) findViewById(R.id.finance_funds1);
+        personView = (Spinner) findViewById(R.id.finance_person);
         dateView = (DateChooser) findViewById(R.id.finance_date);
         numView = (EditText) findViewById(R.id.finance_num);
         descView = (EditText) findViewById(R.id.finance_desc);
         save_record = (Button) findViewById(R.id.save);
 
         person_layout = (RelativeLayout) findViewById(R.id.finance_person_layout);
+        funds_layout = (RelativeLayout) findViewById(R.id.finance_funds_layout1);
     }
 
     private void initData() {
         mRecordPresenter = new RecordPresenterImpl(this, this);
         mFundsPresenter = new FundsPresenterImpl(this, this);
         mCategoryPresenter = new CategoryPresenterImpl(this, this);
-
+        mPersonPresenter = new PersonPresenterImpl(this, this);
 
         mFundsPresenter.getFunds(GET_FUNDS);
         mCategoryPresenter.getCategory(GET_CATEGORY);
+        mPersonPresenter.getPerson(GET_PERSON);
     }
 
     private void setListener() {
@@ -178,10 +203,21 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
                 categoryID = categoryList.get(i).getId();
                 type = categoryList.get(i).getType();
                 if (type == 2) {
+                    if (funds_layout.getVisibility() == View.VISIBLE) {
+                        funds_layout.setVisibility(View.GONE);
+                    }
                     person_layout.setVisibility(View.VISIBLE);
+                } else if (type == 3) {
+                    if (person_layout.getVisibility() == View.VISIBLE) {
+                        person_layout.setVisibility(View.GONE);
+                    }
+                    funds_layout.setVisibility(View.VISIBLE);
                 } else {
                     if (person_layout.getVisibility() == View.VISIBLE) {
                         person_layout.setVisibility(View.GONE);
+                    }
+                    if (funds_layout.getVisibility() == View.VISIBLE) {
+                        funds_layout.setVisibility(View.GONE);
                     }
                 }
             }
@@ -203,6 +239,34 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 record_funds.setText(fundsList.get(0).getFunds_name());
+            }
+        });
+
+        //转账的转入项
+        fundsView1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                record_funds.setText(fundsList.get(i).getFunds_name());
+                fundsID = fundsList.get(i).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                record_funds.setText(fundsList.get(0).getFunds_name());
+            }
+        });
+
+        //收/借款的收/借款人
+        personView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                /*record_funds.setText(fundsList.get(i).getFunds_name());
+                fundsID = fundsList.get(i).getId();*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //record_funds.setText(fundsList.get(0).getFunds_name());
             }
         });
 
@@ -252,12 +316,16 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
 
     private void initializeView() {
         //配置类别选择器
-        SpinnerAdapter adapter = new SpinnerAdapter(this, categoryList, false);
+        SpinnerAdapter adapter = new SpinnerAdapter(this, categoryList);
         categoryView.setAdapter(adapter);
 
         //配置资金流动项选择器，即收入项与扣款项
         SpinnerAdapter adapter1 = new SpinnerAdapter(this, fundsList);
         fundsView.setAdapter(adapter1);
+        fundsView1.setAdapter(adapter1);
+
+        SpinnerAdapter adapter2 = new SpinnerAdapter(this, personList);
+        personView.setAdapter(adapter2);
 
         //配置日期选择器
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -303,6 +371,9 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
                 break;
             case GET_CATEGORY:
                 categoryList = (List<Category>) object;
+                break;
+            case GET_PERSON:
+                personList = (List<Person>) object;
                 break;
         }
     }

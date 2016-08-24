@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!-- 借贷人列表的 item 布局-->
+<?xml version="1.0" encoding="utf-8"?><!-- 资金项的 item 布局 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/name"
         android:layout_height="50dp"
-        android:gravity="center_vertical|left"
+        android:gravity="center_vertical|start"
         android:layout_weight="1"
         android:textSize="@dimen/add_record_text_size"
         android:layout_width="wrap_content" />
@@ -18,7 +18,7 @@
         android:id="@+id/num"
         android:layout_height="50dp"
         android:layout_weight="1"
-        android:gravity="center_vertical|right"
+        android:gravity="center_vertical|end"
         android:textSize="@dimen/add_record_text_size"
         android:layout_width="wrap_content" />
 

@@ -6,42 +6,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.andy.greendao.Category;
 import com.andy.greendao.Funds;
 import com.andy.mengzhu.R;
-import com.andy.mengzhu.presenter.CategoryPresenter;
 import com.andy.mengzhu.presenter.FundsPresenter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
- * FundsList 与 CategoryList 中的 RecycleView 的适配器
+ * 资金列表的适配器
  * <p/>
- * Created by Administrator on 2016/7/6 0006.
+ * Created by Administrator on 2016/8/24 0024.
  */
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> implements View.OnClickListener {
+public class FundsAdapter extends RecyclerView.Adapter<FundsAdapter.ViewHolder> implements View.OnClickListener {
     /**
      * 保存资金项的数据
      */
     private List<Funds> funds = new ArrayList<>();
 
     /**
-     * 保存类别项的数据
-     */
-    private List<Category> categories = new ArrayList<>();
-
-    /**
-     * 区分是资金项还是类别项，如果是资金项则为true，否为为false
-     */
-    private boolean isFunds = true;
-
-    /**
      * Presenter 层
      */
-    private CategoryPresenter mCategoryPresenter = null;
     private FundsPresenter mFundsPresenter = null;
+
     /**
      * 使用
      */
@@ -61,21 +48,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
     }
 
 
-    public ListAdapter(List<Category> categories, CategoryPresenter mCategoryPresenter) {
-        this.categories = categories;
-        isFunds = false;
-        this.mCategoryPresenter = mCategoryPresenter;
-    }
-
-    public ListAdapter(List<Funds> funds, FundsPresenter mFundsPresenter) {
+    public FundsAdapter(List<Funds> funds, FundsPresenter mFundsPresenter) {
         this.funds = funds;
-        isFunds = true;
         this.mFundsPresenter = mFundsPresenter;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_funds, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(this);
         return viewHolder;
@@ -83,21 +63,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (isFunds) {
-            holder.name.setText(funds.get(position).getFunds_name());
-        } else {
-            holder.name.setText(categories.get(position).getCategory_name());
-        }
+        holder.name.setText(funds.get(position).getFunds_name());
+        holder.num.setText(funds.get(position).getNum().toString());
         holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        if (isFunds) {
-            return funds.isEmpty() ? 0 : funds.size();
-        } else {
-            return categories.isEmpty() ? 0 : categories.size();
-        }
+        return funds.isEmpty() ? 0 : funds.size();
     }
 
     @Override
@@ -109,10 +82,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
+        public TextView num;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
+            num = (TextView) itemView.findViewById(R.id.num);
         }
     }
 
@@ -121,13 +96,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
     }
 
     public void removeData(int position) {
-        if (isFunds) {
-            mFundsPresenter.deleteFunds(funds.get(position));
-            funds.remove(position);
-        } else {
-            mCategoryPresenter.deleteCategory(categories.get(position));
-            categories.remove(position);
-        }
+        mFundsPresenter.deleteFunds(funds.get(position));
+        funds.remove(position);
         notifyItemRemoved(position);
     }
 }

@@ -16,7 +16,7 @@ import com.andy.mengzhu.model.entity.BalanceOfPayments;
 import com.andy.mengzhu.model.entity.CategoryStatistics;
 import com.andy.mengzhu.presenter.StatisticsPresenter;
 import com.andy.mengzhu.presenter.impl.StatisticsPresenterImpl;
-import com.andy.mengzhu.ui.adapter.CategoryAdapter;
+import com.andy.mengzhu.ui.adapter.HomeCategoryAdapter;
 import com.andy.mengzhu.ui.component.SwitchAndy;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
 import com.andy.mengzhu.ui.view.DataRequestView;
@@ -42,7 +42,7 @@ public class Home extends Fragment implements View.OnClickListener, DataRequestV
     /**
      * categoryView 的适配器
      */
-    private CategoryAdapter mAdapter;
+    private HomeCategoryAdapter mAdapter;
 
     /**
      * 显示收入金额
@@ -159,7 +159,7 @@ public class Home extends Fragment implements View.OnClickListener, DataRequestV
         categoryView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         categoryView.setHasFixedSize(true);
-        mAdapter = new CategoryAdapter(datas);
+        mAdapter = new HomeCategoryAdapter(datas);
         categoryView.setAdapter(mAdapter);
     }
 

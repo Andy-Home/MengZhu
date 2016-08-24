@@ -283,7 +283,7 @@ public class EditRecord extends BaseActivity implements View.OnClickListener, Da
 
     private void initializeView() {
         //配置类别选择器
-        SpinnerAdapter adapter = new SpinnerAdapter(this, categoryList, false);
+        SpinnerAdapter adapter = new SpinnerAdapter(this, categoryList);
         categoryView.setAdapter(adapter);
 
         //配置资金流动项选择器，即收入项与扣款项
