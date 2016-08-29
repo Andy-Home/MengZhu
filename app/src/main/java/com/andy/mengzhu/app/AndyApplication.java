@@ -78,8 +78,8 @@ public class AndyApplication extends Application{
     private void initDatabase() {
         //类目项
         //类目的类型： 0为支出、1为收入、2为收借款、3为转账
-        String[] categoryName = {"交通", "主餐", "水果", "零食", "通讯", "生活用品", "借款", "工资", "收款", "转账"};
-        int[] categoryType = {0, 0, 0, 0, 0, 0, 2, 1, 2, 3};
+        String[] categoryName = {"交通", "主餐", "水果", "零食", "通讯", "生活用品", "工资", "借入", "收款", "还款", "借出", "转账"};
+        int[] categoryType = {0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 3};
         CategoryDao mCategoryDao = daoSession.getCategoryDao();
         for (int i = 0; i < categoryName.length; i++) {
             Category category = new Category();

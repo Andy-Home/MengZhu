@@ -33,6 +33,8 @@ import com.andy.mengzhu.ui.component.DateChooser;
 import com.andy.mengzhu.ui.view.DataRequestView;
 import com.andy.mengzhu.ui.view.DividerItemDecoration;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -109,6 +111,21 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
     private TextView record_desc;
 
     /**
+     * 金额的转移方向
+     */
+    private TextView record_dir;
+
+    /**
+     * 金额的转移目标
+     */
+    private TextView record_more;
+
+    /**
+     * 根据借款与收款项判断显示文字是收款人还是借款人
+     */
+    private TextView person_txt;
+
+    /**
      * 点击该按钮，保存账务信息
      */
     private Button save_record;
@@ -169,6 +186,9 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         record_num = (TextView) findViewById(R.id.record_num);
         record_funds = (TextView) findViewById(R.id.record_funds);
         record_desc = (TextView) findViewById(R.id.record_desc);
+        record_more = (TextView) findViewById(R.id.record_more);
+        record_dir = (TextView) findViewById(R.id.record_dir);
+        person_txt = (TextView) findViewById(R.id.finance_person_txt);
 
         categoryView = (Spinner) findViewById(R.id.finance_category);
         fundsView = (Spinner) findViewById(R.id.finance_funds);
@@ -207,11 +227,20 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
                         funds_layout.setVisibility(View.GONE);
                     }
                     person_layout.setVisibility(View.VISIBLE);
+                    String categoryName = categoryList.get(i).getCategory_name();
+                    if (categoryName.equals("借出") || categoryName.equals("还款")) {
+                        person_txt.setText(R.string.borrower);
+                        record_dir.setText(R.string.right_to_left);
+                    } else if (categoryName.equals("借入") || categoryName.equals("收款")) {
+                        person_txt.setText(R.string.repayment_person);
+                        record_dir.setText(R.string.left_to_right);
+                    }
                 } else if (type == 3) {
                     if (person_layout.getVisibility() == View.VISIBLE) {
                         person_layout.setVisibility(View.GONE);
                     }
                     funds_layout.setVisibility(View.VISIBLE);
+                    record_dir.setText(R.string.right_to_left);
                 } else {
                     if (person_layout.getVisibility() == View.VISIBLE) {
                         person_layout.setVisibility(View.GONE);
@@ -219,6 +248,8 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
                     if (funds_layout.getVisibility() == View.VISIBLE) {
                         funds_layout.setVisibility(View.GONE);
                     }
+                    record_dir.setText("");
+                    record_more.setText("");
                 }
             }
 
@@ -246,13 +277,13 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         fundsView1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                record_funds.setText(fundsList.get(i).getFunds_name());
+                record_more.setText(fundsList.get(i).getFunds_name());
                 fundsID = fundsList.get(i).getId();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                record_funds.setText(fundsList.get(0).getFunds_name());
+                record_more.setText(fundsList.get(0).getFunds_name());
             }
         });
 
@@ -260,13 +291,13 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
         personView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                /*record_funds.setText(fundsList.get(i).getFunds_name());
-                fundsID = fundsList.get(i).getId();*/
+                record_more.setText(personList.get(i).getPerson_name());
+                fundsID = fundsList.get(i).getId();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                //record_funds.setText(fundsList.get(0).getFunds_name());
+                record_more.setText(personList.get(0).getPerson_name());
             }
         });
 

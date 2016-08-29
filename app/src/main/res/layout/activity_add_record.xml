@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textSize="48dp" />
+            android:textSize="48sp" />
 
         <!-- 记录的类别 -->
         <TextView
@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="15dp"
             android:textSize="@dimen/add_record_text_size" />
 
@@ -44,10 +45,11 @@
             android:id="@+id/record_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@id/record_date"
             android:layout_marginTop="15dp"
-            android:textSize="@dimen/add_record_text_size" />
+            android:textSize="@dimen/add_record_text_size"
+            android:layout_alignParentRight="true" />
 
         <!-- 记录的支收款项 -->
         <TextView
@@ -55,6 +57,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/record_desc"
+            android:layout_marginTop="15dp"
+            android:textSize="@dimen/add_record_text_size" />
+
+        <!-- 记录的金额转移方向 -->
+        <TextView
+            android:id="@+id/record_dir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/record_funds"
+            android:layout_toStartOf="@id/record_funds"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_below="@id/record_desc"
+            android:layout_marginTop="15dp"
+            android:textSize="@dimen/add_record_text_size"
+            android:layout_marginRight="6dp" />
+
+        <!-- 显示记录中借贷人或者资金项 -->
+        <TextView
+            android:id="@+id/record_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/record_dir"
+            android:layout_toStartOf="@id/record_dir"
             android:layout_below="@id/record_desc"
             android:layout_marginTop="15dp"
             android:textSize="@dimen/add_record_text_size" />
@@ -76,6 +105,7 @@
         android:layout_height="46dp"
         android:layout_below="@id/record_layout"
         android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="28dp">
 
         <TextView
@@ -92,7 +122,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/finance_num_text"
+            android:layout_toEndOf="@id/finance_num_text"
+            android:layout_toRightOf="@id/finance_num_text"
             android:gravity="center"
             android:hint="@string/finance_num_default"
             android:inputType="numberDecimal"
@@ -117,6 +148,7 @@
         android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_below="@id/finance_num_layout"
+        android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp">
 
@@ -135,7 +167,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/finance_category_txt" />
+            android:layout_toEndOf="@id/finance_category_txt"
+            android:layout_toRightOf="@id/finance_category_txt" />
     </RelativeLayout>
 
     <!-- 扣款或者收入项的布局 -->
@@ -145,6 +178,7 @@
         android:layout_height="46dp"
         android:layout_below="@id/finance_category_layout"
         android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp">
 
         <TextView
@@ -162,7 +196,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/finance_funds_txt" />
+            android:layout_toEndOf="@id/finance_funds_txt"
+            android:layout_toRightOf="@id/finance_funds_txt" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -188,7 +223,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/finance_desc_text"
+            android:layout_toEndOf="@id/finance_desc_text"
+            android:layout_toRightOf="@id/finance_desc_text"
             android:gravity="center"
             android:hint="@string/finance_desc_default"
             android:maxLines="1" />
@@ -200,6 +236,7 @@
         android:layout_height="46dp"
         android:layout_below="@id/finance_desc_layout"
         android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:visibility="visible"
         android:layout_marginTop="10dp">
 
@@ -218,7 +255,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/finance_person_txt" />
+            android:layout_toEndOf="@id/finance_person_txt"
+            android:layout_toRightOf="@id/finance_person_txt" />
     </RelativeLayout>
 
     <!-- 转账时显示的布局收入项的布局 -->
@@ -228,6 +266,7 @@
         android:layout_height="46dp"
         android:layout_below="@id/finance_desc_layout"
         android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:visibility="gone"
         android:layout_marginTop="10dp">
 
@@ -246,7 +285,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/finance_funds_txt1" />
+            android:layout_toEndOf="@id/finance_funds_txt1"
+            android:layout_toRightOf="@id/finance_funds_txt1" />
     </RelativeLayout>
 
     <Button
@@ -257,5 +297,5 @@
         android:layout_margin="20dp"
         android:background="@color/gainSboro"
         android:text="@string/save"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 </RelativeLayout>

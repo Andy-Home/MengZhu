@@ -15,6 +15,10 @@ public class Record {
     private Long funds_id;
     private String funds_name;
     private Integer type;
+    private Long person_id;
+    private String person_name;
+    private Long in_funds_id;
+    private String in_funds_name;
 
     public Record() {
     }
@@ -23,7 +27,7 @@ public class Record {
         this.id = id;
     }
 
-    public Record(Long id, Double num, java.util.Date date, String desc, Long category_id, String category_name, Long funds_id, String funds_name, Integer type) {
+    public Record(Long id, Double num, java.util.Date date, String desc, Long category_id, String category_name, Long funds_id, String funds_name, Integer type, Long person_id, String person_name, Long in_funds_id, String in_funds_name) {
         this.id = id;
         this.num = num;
         this.date = date;
@@ -33,6 +37,10 @@ public class Record {
         this.funds_id = funds_id;
         this.funds_name = funds_name;
         this.type = type;
+        this.person_id = person_id;
+        this.person_name = person_name;
+        this.in_funds_id = in_funds_id;
+        this.in_funds_name = in_funds_name;
     }
 
     public Long getId() {
@@ -107,6 +115,38 @@ public class Record {
         this.type = type;
     }
 
+    public Long getPerson_id() {
+        return person_id;
+    }
+
+    public void setPerson_id(Long person_id) {
+        this.person_id = person_id;
+    }
+
+    public String getPerson_name() {
+        return person_name;
+    }
+
+    public void setPerson_name(String person_name) {
+        this.person_name = person_name;
+    }
+
+    public Long getIn_funds_id() {
+        return in_funds_id;
+    }
+
+    public void setIn_funds_id(Long in_funds_id) {
+        this.in_funds_id = in_funds_id;
+    }
+
+    public String getIn_funds_name() {
+        return in_funds_name;
+    }
+
+    public void setIn_funds_name(String in_funds_name) {
+        this.in_funds_name = in_funds_name;
+    }
+
     /**
      * 方便账务列表日期的显示
      */
@@ -119,5 +159,4 @@ public class Record {
     public void setDatePosition(int datePosition) {
         this.datePosition = datePosition;
     }
-
 }

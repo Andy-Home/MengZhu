@@ -1,4 +1,5 @@
 <resources>
+    <string name="ui_test">123</string>
     <string name="app_name">萌猪</string>
     <string name="title_statistics">统计</string>
     <string name="title_detail">账务详情</string>
@@ -42,4 +43,6 @@
     <string name="author">Andy Clanguage</string>
     <string name="github">https://github.com/Andy-Home</string>
     <string name="blog">http://blog.csdn.net/u011434547</string>
+    <string name="left_to_right">---&gt;</string>
+    <string name="right_to_left">&lt;---</string>
 </resources>

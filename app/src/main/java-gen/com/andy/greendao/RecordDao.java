@@ -33,6 +33,10 @@ public class RecordDao extends AbstractDao<Record, Long> {
         public final static Property Funds_id = new Property(6, Long.class, "funds_id", false, "FUNDS_ID");
         public final static Property Funds_name = new Property(7, String.class, "funds_name", false, "FUNDS_NAME");
         public final static Property Type = new Property(8, Integer.class, "type", false, "TYPE");
+        public final static Property Person_id = new Property(9, Long.class, "person_id", false, "PERSON_ID");
+        public final static Property Person_name = new Property(10, String.class, "person_name", false, "PERSON_NAME");
+        public final static Property In_funds_id = new Property(11, Long.class, "in_funds_id", false, "IN_FUNDS_ID");
+        public final static Property In_funds_name = new Property(12, String.class, "in_funds_name", false, "IN_FUNDS_NAME");
     }
 
     ;
@@ -60,7 +64,11 @@ public class RecordDao extends AbstractDao<Record, Long> {
                 "\"CATEGORY_NAME\" TEXT," + // 5: category_name
                 "\"FUNDS_ID\" INTEGER," + // 6: funds_id
                 "\"FUNDS_NAME\" TEXT," + // 7: funds_name
-                "\"TYPE\" INTEGER);"); // 8: type
+                "\"TYPE\" INTEGER," + // 8: type
+                "\"PERSON_ID\" INTEGER," + // 9: person_id
+                "\"PERSON_NAME\" TEXT," + // 10: person_name
+                "\"IN_FUNDS_ID\" INTEGER," + // 11: in_funds_id
+                "\"IN_FUNDS_NAME\" TEXT);"); // 12: in_funds_name
     }
 
     /** Drops the underlying database table. */
@@ -118,6 +126,26 @@ public class RecordDao extends AbstractDao<Record, Long> {
         if (type != null) {
             stmt.bindLong(9, type);
         }
+
+        Long person_id = entity.getPerson_id();
+        if (person_id != null) {
+            stmt.bindLong(10, person_id);
+        }
+
+        String person_name = entity.getPerson_name();
+        if (person_name != null) {
+            stmt.bindString(11, person_name);
+        }
+
+        Long in_funds_id = entity.getIn_funds_id();
+        if (in_funds_id != null) {
+            stmt.bindLong(12, in_funds_id);
+        }
+
+        String in_funds_name = entity.getIn_funds_name();
+        if (in_funds_name != null) {
+            stmt.bindString(13, in_funds_name);
+        }
     }
 
     /** @inheritdoc */
@@ -138,7 +166,11 @@ public class RecordDao extends AbstractDao<Record, Long> {
                 cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // category_name
                 cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6), // funds_id
                 cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // funds_name
-                cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // type
+                cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // type
+                cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // person_id
+                cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // person_name
+                cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11), // in_funds_id
+                cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // in_funds_name
         );
         return entity;
     }
@@ -155,6 +187,10 @@ public class RecordDao extends AbstractDao<Record, Long> {
         entity.setFunds_id(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
         entity.setFunds_name(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setType(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setPerson_id(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
+        entity.setPerson_name(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setIn_funds_id(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
+        entity.setIn_funds_name(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
      }
     
     /** @inheritdoc */

@@ -12,15 +12,19 @@ public class GreenDao {
 
         //新建记录表
         Entity record = schema.addEntity("Record");
-        record.addIdProperty().primaryKey();
-        record.addDoubleProperty("num");
-        record.addDateProperty("date");
-        record.addStringProperty("desc");
-        record.addLongProperty("category_id");
-        record.addStringProperty("category_name");
-        record.addLongProperty("funds_id");
-        record.addStringProperty("funds_name");
-        record.addIntProperty("type");
+        record.addIdProperty().primaryKey();                        //ID
+        record.addDoubleProperty("num");                            //金额
+        record.addDateProperty("date");                             //日期
+        record.addStringProperty("desc");                           //描述
+        record.addLongProperty("category_id");                      //类目ID
+        record.addStringProperty("category_name");                  //类目名
+        record.addLongProperty("funds_id");                         //资金ID
+        record.addStringProperty("funds_name");                     //资金名
+        record.addIntProperty("type");                              //记录类型
+        record.addLongProperty("person_id");                        //收借款人ID
+        record.addStringProperty("person_name");                    //人名
+        record.addLongProperty("in_funds_id");                      //收款资金ID(转账)
+        record.addStringProperty("in_funds_name");                  //收款资金名(转账)
 
         //类目表
         Entity category = schema.addEntity("Category");
@@ -31,13 +35,13 @@ public class GreenDao {
 
         //资金项表
         Entity funds = schema.addEntity("Funds");
-        funds.addIdProperty();
+        funds.addIdProperty().primaryKey();
         funds.addStringProperty("funds_name");
         funds.addDoubleProperty("num");
 
         //收借款人表
         Entity person = schema.addEntity("Person");
-        person.addIdProperty();
+        person.addIdProperty().primaryKey();
         person.addStringProperty("person_name");
         person.addDoubleProperty("num");
 

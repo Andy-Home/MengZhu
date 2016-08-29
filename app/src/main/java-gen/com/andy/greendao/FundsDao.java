@@ -71,7 +71,7 @@ public class FundsDao extends AbstractDao<Funds, Long> {
         if (funds_name != null) {
             stmt.bindString(2, funds_name);
         }
-
+ 
         Double num = entity.getNum();
         if (num != null) {
             stmt.bindDouble(3, num);
