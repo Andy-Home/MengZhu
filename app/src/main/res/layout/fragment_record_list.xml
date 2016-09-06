@@ -4,8 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/background"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="36sp"
+        android:gravity="center"
+        android:text="@string/you_are_not_save_record" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/record_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

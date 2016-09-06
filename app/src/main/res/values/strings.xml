@@ -38,11 +38,14 @@
     <string name="determine">确定</string>
     <string name="income">收入项</string>
     <string name="pay">支出项</string>
-    <string name="repayment_person">还款人</string>
-    <string name="borrower">借款人</string>
-    <string name="author">Andy Clanguage</string>
+    <string name="relation_person">关系人</string>
+    <string name="author">Andy Clanguage</string>you
     <string name="github">https://github.com/Andy-Home</string>
     <string name="blog">http://blog.csdn.net/u011434547</string>
     <string name="left_to_right">---&gt;</string>
     <string name="right_to_left">&lt;---</string>
+    <string name="statistics">统计</string>
+    <string name="home">首页</string>
+    <string name="detail">详情</string>
+    <string name="you_are_not_save_record">您还没有记录账务</string>
 </resources>

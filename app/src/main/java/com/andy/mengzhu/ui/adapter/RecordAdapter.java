@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.TextView;
 
 import com.andy.greendao.Record;
@@ -42,6 +43,11 @@ public class RecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * Date 数据的格式化
      */
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+    /**
+     * 数据为空时显示的背景
+     */
+    private View background;
 
     /**
      * Presenter层

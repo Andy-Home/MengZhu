@@ -229,10 +229,10 @@ public class AddRecord extends BaseActivity implements View.OnClickListener, Dat
                     person_layout.setVisibility(View.VISIBLE);
                     String categoryName = categoryList.get(i).getCategory_name();
                     if (categoryName.equals("借出") || categoryName.equals("还款")) {
-                        person_txt.setText(R.string.borrower);
+                        person_txt.setText(R.string.relation_person);
                         record_dir.setText(R.string.right_to_left);
                     } else if (categoryName.equals("借入") || categoryName.equals("收款")) {
-                        person_txt.setText(R.string.repayment_person);
+                        person_txt.setText(R.string.relation_person);
                         record_dir.setText(R.string.left_to_right);
                     }
                 } else if (type == 3) {

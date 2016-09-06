@@ -11,6 +11,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.andy.greendao.Record;
 import com.andy.mengzhu.R;
@@ -28,10 +29,29 @@ import java.util.List;
  * Created by Administrator on 2016/7/6 0006.
  */
 public class RecordList extends Fragment implements DataRequestView {
+    /**
+     * 界面无数据时的背景
+     */
+    private TextView background;
+
+    /**
+     * 列表
+     */
     private RecyclerView record_list;
+
+    /**
+     * 适配器
+     */
     private RecordAdapter mRecordAdapter = null;
 
+    /**
+     * 数据访问的 Presenter 层
+     */
     private RecordPresenterImpl mRecordPresenter = null;
+
+    /**
+     * 需要显示的数据
+     */
     private List<Record> recordList = null;
 
     private static final int GET_RECORD = 1;
@@ -48,6 +68,7 @@ public class RecordList extends Fragment implements DataRequestView {
 
     private void findView(View view) {
         record_list = (RecyclerView) view.findViewById(R.id.record_list);
+        background = (TextView) view.findViewById(R.id.background);
     }
 
     private void initData() {
@@ -71,6 +92,12 @@ public class RecordList extends Fragment implements DataRequestView {
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(record_list);
 
+        //当没有数据的时候显示背景
+        if (mRecordAdapter.getItemCount() == 0) {
+            background.setVisibility(View.VISIBLE);
+        } else {
+            background.setVisibility(View.GONE);
+        }
     }
 
     private void setListener() {

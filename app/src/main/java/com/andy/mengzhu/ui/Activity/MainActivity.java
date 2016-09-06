@@ -155,9 +155,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mFragments.add(new Home());
         mFragments.add(new RecordList());
 
-        mTitle.add("Statistics");
-        mTitle.add("Home");
-        mTitle.add("Detail");
+        mTitle.add(getString(R.string.statistics));
+        mTitle.add(getString(R.string.home));
+        mTitle.add(getString(R.string.detail));
     }
 
 
